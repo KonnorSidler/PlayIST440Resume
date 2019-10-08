@@ -30,7 +30,8 @@ object commonSidebar extends _root_.play.twirl.api.BaseScalaTemplate[play.twirl.
       {
 
 
-Seq[Any](_display_(/*2.2*/defining(play.core.PlayVersion.current)/*2.41*/ { version =>_display_(Seq[Any](format.raw/*2.54*/("""
+Seq[Any](format.raw/*1.4*/("""
+"""),_display_(/*2.2*/defining(play.core.PlayVersion.current)/*2.41*/ { version =>_display_(Seq[Any](format.raw/*2.54*/("""
 """),format.raw/*3.1*/("""<h3>Table of Contents</h3>
 <ul>
   <li><a href=""""),_display_(/*5.17*/routes/*5.23*/.HomeController.index),format.raw/*5.44*/("""#Introduction">Welcome</a>
@@ -61,11 +62,11 @@ Seq[Any](_display_(/*2.2*/defining(play.core.PlayVersion.current)/*2.41*/ { vers
 
               /*
                   -- GENERATED --
-                  DATE: 2019-09-17T18:56:08.963
+                  DATE: 2019-10-08T17:07:25.888
                   SOURCE: C:/Users/konno/IST Projects/IST440Resume/PlayIST440Resume/app/views/commonSidebar.scala.html
-                  HASH: 1a73972e0a1b235633b0ddd65945ca057024fac0
-                  MATRIX: 949->1|1045->5|1092->44|1142->57|1169->58|1243->106|1257->112|1298->133|1367->176|1381->182|1424->205|1498->253|1512->259|1556->283|1708->408|1736->415
-                  LINES: 28->1|33->2|33->2|33->2|34->3|36->5|36->5|36->5|37->6|37->6|37->6|38->7|38->7|38->7|42->11|42->11
+                  HASH: 1f12efa7fb5a3b5e927a31941842e8465c67a2be
+                  MATRIX: 949->1|1045->3|1073->6|1120->45|1170->58|1198->60|1274->110|1288->116|1329->137|1399->181|1413->187|1456->210|1531->259|1545->265|1589->289|1745->418|1773->425
+                  LINES: 28->1|33->1|34->2|34->2|34->2|35->3|37->5|37->5|37->5|38->6|38->6|38->6|39->7|39->7|39->7|43->11|43->11
                   -- GENERATED --
               */
           
