@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class FavoriteMap extends Model {
 
-    @OneToMany()
+    @ManyToOne()
     public UserAccount userAccount;
 
     @ManyToOne()
