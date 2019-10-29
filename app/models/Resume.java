@@ -2,8 +2,14 @@ package models;
 
 import io.ebean.Model;
 import io.ebean.*;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import play.data.format.*;
+import play.data.validation.*;
+
+import java.util.*;
 
 @Entity
 public class Resume extends Model {
@@ -11,13 +17,11 @@ public class Resume extends Model {
     @Id
     public long resumeID;
 
-    @ManyToOne()
     public Company company;
 
-    @Column(columnDefinition = "varchar(100) not null")
     public String resumeS3Path;
 
-    @Column(columnDefinition = "varchar(50) not null")
-    public Date resumeUploadDate;
+    @Formats.DateTime(pattern="dd/MM/yyyy")
+    public Date resumeUploadDate = new Date();
 
 }

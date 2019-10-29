@@ -11,10 +11,8 @@ public class UserAccount extends Model {
     @Id
     public long userID;
 
-    @Column(columnDefinition = "varchar(30) not null")
     public String userEmail;
 
-    @Column(columnDefinition = "varchar(30) not null")
     public String userName;
 
 }

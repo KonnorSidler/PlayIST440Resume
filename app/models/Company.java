@@ -11,7 +11,6 @@ public class Company extends Model {
     @Id
     public long companyID;
 
-    @Column(columnDefinition = "varchar(30) not null")
     public String companyName;
 
 }
