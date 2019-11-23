@@ -45,6 +45,14 @@ public class UploadController extends Controller {
         return ok(company.render());
     }
 
+    public Result viewResume(long resumeID) {
+        List<Clubs> clubs = Clubs.find.query().where().eq("linkedResume", resumeID).findList();
+        List<Interning> internships = Interning.find.query().where().eq("linkedResume", resumeID).findList();
+        List<Schooling> schools = Schooling.find.query().where().eq("linkedResume", resumeID).findList();
+        List<Skills> skills = Skills.find.query().where().eq("linkedResume", resumeID).findList();
+        return ok(viewResume.render(clubs, internships, schools, skills, resumeID));
+    }
+
     public Result addClubToResume(Http.Request request) {
         System.out.println("Adding Club to Resume");
         JsonNode json = request.body().asJson();
