@@ -15,13 +15,21 @@ import java.util.*;
 public class Resume extends Model {
 
     @Id
-    public long resumeID;
+    private long resumeID;
 
-    public Company company;
+    private long companyID;
 
-    public String resumeS3Path;
+    public static final Finder<Long, Resume> find = new Finder<>(Resume.class);
 
-    @Formats.DateTime(pattern="dd/MM/yyyy")
-    public Date resumeUploadDate = new Date();
+    public long getResumeID() {
+        return resumeID;
+    }
 
+    public long getCompanyID() {
+        return companyID;
+    }
+
+    public void setCompanyID(long companyID) {
+        this.companyID = companyID;
+    }
 }

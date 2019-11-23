@@ -1,0 +1,155 @@
+@(resumeID: Long)
+
+@navBar("Update Resume") {
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<p id="resumeId">@resumeID</p>
+<h1>Add Club To Resume</h1>
+<div>
+    Club Name <br>
+    <input type="text" name="clubName" id="clubName">
+    Club Description <br>
+    <input type="text" name="clubDescription" id="clubDesc"><br>
+    <button id="clubSubmitButton" onclick="addClub()">Add Club</button>
+</div>
+<br>
+<h1>Add Internship To Resume</h1>
+<div>
+    Internship Company <br>
+    <input type="text" name="internCompany" id="internCompany"><br>
+    Intern Position <br>
+    <input type="text" name="internPosition" id="internPosition"><br>
+    Internship Description <br>
+    <input type="text" name="internDescription" id="internDescription"><br>
+    <button id="internSubmitButton" onclick="addIntern()">Add Internship</button>
+</div>
+<br>
+<h1>Add School To Resume</h1>
+<div>
+    School Name <br>
+    <input type="text" name="schoolName" id="schoolName"><br>
+    School Major<br>
+    <input type="text" name="schoolMajor" id="schoolMajor"><br>
+    <button id="schoolSubmitButton" onclick="addSchool()">Add School</button>
+</div>
+<br>
+<h1>Add Skills To Resume</h1>
+<div>
+    Applicable Skills <br>
+    <input type="text" name="skillField" id="skillField"><br>
+    <button id="skillSubmitButton" onclick="addSkills()">Add Skills</button>
+</div>
+
+
+
+<script type="text/javascript">
+    function addClub() {
+        console.log("Adding Club to Database Mapping");
+        var clubName  = document.getElementById("clubName").value;
+
+        console.log(clubName);
+        var clubDescription = document.getElementById("clubDesc").value;
+        var resumeID = document.getElementById("resumeId").innerText;
+        var data = {"clubName" : clubName,
+                    "clubDescription" : clubDescription,
+                    "resumeID" : resumeID};
+        $.ajax({
+            type : 'POST',
+            url : '@routes.UploadController.addClubToResume',
+            data : JSON.stringify(data),
+            dataType: 'html',
+            contentType: 'application/json',
+            success : function(data) {
+                console.log("Club Added To Resume");
+                alert("Club submitted!");
+            },
+            error : function(data) {
+                console.log("Could not submit");
+
+                alert("Something went wrong, please try again later!")
+            }
+        });
+    }
+
+    function addIntern() {
+        console.log("Adding Internship to Database Mapping");
+        var company  = document.getElementById("internCompany").value;
+        var position = document.getElementById("internPosition").value;
+        var description = document.getElementById("internDescription").value;
+        var resumeID = document.getElementById("resumeId").innerText;
+        var data = {"internCompany" : company,
+                    "internPosition" : position,
+                    "internDesc" : description,
+                    "resumeID" : resumeID};
+        $.ajax({
+            type : 'POST',
+            url : '@routes.UploadController.addInternshipToResume',
+            data : JSON.stringify(data),
+            dataType: 'html',
+            contentType: 'application/json',
+            success : function(data) {
+                console.log("Internship Added To Resume");
+                alert("Internship submitted!");
+            },
+            error : function(data) {
+                console.log("Could not submit");
+
+                alert("Something went wrong, please try again later!")
+            }
+        });
+    }
+
+    function addSchool() {
+        console.log("Adding Schooling to Database Mapping");
+        var school  = document.getElementById("schoolName").value;
+        var major = document.getElementById("schoolMajor").value;
+        var resumeID = document.getElementById("resumeId").innerText;
+        var data = {"schoolName" : school,
+                    "schoolMajor" : major,
+                    "resumeID" : resumeID};
+        $.ajax({
+            type : 'POST',
+            url : '@routes.UploadController.addSchoolToResume',
+            data : JSON.stringify(data),
+            dataType: 'html',
+            contentType: 'application/json',
+            success : function(data) {
+                console.log("School Added To Resume");
+                alert("School submitted!");
+            },
+            error : function(data) {
+                console.log("Could not submit");
+
+                alert("Something went wrong, please try again later!")
+            }
+        });
+    }
+
+    function addSkills() {
+        console.log("Adding Skills to Database Mapping");
+        var skills  = document.getElementById("skillField").value;
+        var resumeID = document.getElementById("resumeId").innerText;
+        var data = {"skillField" : skills,
+                    "resumeID" : resumeID};
+        $.ajax({
+            type : 'POST',
+            url : '@routes.UploadController.addSkillsToResume',
+            data : JSON.stringify(data),
+            dataType: 'html',
+            contentType: 'application/json',
+            success : function(data) {
+                console.log("Skills Added To Resume");
+                alert("Skills submitted!");
+            },
+            error : function(data) {
+                console.log("Could not submit");
+
+                alert("Something went wrong, please try again later!")
+            }
+        });
+    }
+</script>
+
+}

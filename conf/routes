@@ -16,3 +16,33 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET     /dbTest                     controllers.DatabaseTestController.returnToDBTest
 POST    /saveDBTest                 controllers.DatabaseTestController.saveDatabaseTest(request: Request)
 GET     /viewDBTest                 controllers.DatabaseTestController.getDBTests()
+
+# Uploading
++nocsrf
+GET     /resume                     controllers.UploadController.uploadPage()
++nocsrf
+POST    /resume/saveResume          controllers.UploadController.createResumeObject(request:Request)
++nocsrf
+GET     /company                    controllers.UploadController.companyCreatePage()
++nocsrf
+POST    /company/saveCompany        controllers.UploadController.createCompanyObject(request:Request)
++nocsrf
+GET     /resume/edit                controllers.UploadController.index()
++nocsrf
+POST    /resume/saveClub            controllers.UploadController.addClubToResume(request:Request)
++nocsrf
+GET     /resume/getClubs            controllers.UploadController.getClubs()
++nocsrf
+POST    /resume/saveInternship      controllers.UploadController.addInternshipToResume(request:Request)
++nocsrf
+GET     /resume/getInternships      controllers.UploadController.getInternships()
++nocsrf
+POST    /resume/saveSchool          controllers.UploadController.addSchoolToResume(request:Request)
++nocsrf
+GET     /resume/getSchools          controllers.UploadController.getSchools()
++nocsrf
+POST    /resume/saveSkills          controllers.UploadController.addSkillsToResume(request:Request)
++nocsrf
+GET     /resume/getSkills           controllers.UploadController.getSkills()
++nocsrf
+GET     /resume/getResumes          controllers.UploadController.getResumes()
