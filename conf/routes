@@ -17,6 +17,12 @@ GET     /dbTest                     controllers.DatabaseTestController.returnToD
 POST    /saveDBTest                 controllers.DatabaseTestController.saveDatabaseTest(request: Request)
 GET     /viewDBTest                 controllers.DatabaseTestController.getDBTests()
 
+# Searching
++nocsrf
+GET     /search/results=:id          controllers.SearchController.getSearchResults(id: Long)
++nocsrf
+POST    /search/getCode    controllers.SearchController.getCompanyCode(request:Request)
+
 # Uploading
 +nocsrf
 GET     /resume                     controllers.UploadController.uploadPage()
