@@ -1,4 +1,4 @@
-name := """play-java-hello-world-web"""
+name := """IST440Resume-Play"""
 organization := "com.example"
 
 version := "1.0-SNAPSHOT"
