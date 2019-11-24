@@ -14,9 +14,9 @@ import java.util.*;
 @Entity
 public class Skills extends Model {
 
-    public long linkedResume;
+    private long linkedResume;
 
-    public String skillField;
+    private String skillField;
 
     public static final Finder<Long, Skills> find = new Finder<>(Skills.class);
 
@@ -32,7 +32,7 @@ public class Skills extends Model {
         return linkedResume;
     }
 
-    public String getSkills() {
+    public String getSkillField() {
         return skillField;
     }
 }
