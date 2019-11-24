@@ -29,9 +29,8 @@ public class UploadController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    public Result index() {
+    public Result index(long resumeID) {
         System.out.println("Going to upload edit index");
-        long resumeID = 4;
         return ok(resumeEdit.render(resumeID));
     }
 
@@ -110,11 +109,23 @@ public class UploadController extends Controller {
         JsonNode json = request.body().asJson();
         System.out.println(json);
         Resume newResume = new Resume();
-        Company company = Company.find.query().where().eq("companyName", json.findPath("companyName").textValue()).findOne();
+        Company company;
+        if (!(Company.find.query().where().eq("companyName", json.findPath("companyName").textValue()).findOne() == null)) {
+            company = Company.find.query().where().eq("companyName", json.findPath("companyName").textValue()).findOne();
+        } else {
+            createCompanyFromResume(json.findPath("companyName").textValue());
+            company = Company.find.query().where().eq("companyName", json.findPath("companyName").textValue()).findOne();
+        }
         newResume.setCompanyID(company.getCompanyID());
         newResume.save();
         long resumeID = newResume.getResumeID();
-        return ok(resumeEdit.render(resumeID));
+        return ok(Long.toString(resumeID));
+    }
+
+    public void createCompanyFromResume(String newCompanyName) {
+        Company newCompany = new Company();
+        newCompany.setCompanyName(newCompanyName);
+        newCompany.save();
     }
 
     public Result createCompanyObject(Http.Request request) {

@@ -27,7 +27,7 @@ GET     /company                    controllers.UploadController.companyCreatePa
 +nocsrf
 POST    /company/saveCompany        controllers.UploadController.createCompanyObject(request:Request)
 +nocsrf
-GET     /resume/edit                controllers.UploadController.index()
+GET     /resume/edit/resume=:id     controllers.UploadController.index(id: Long)
 +nocsrf
 POST    /resume/saveClub            controllers.UploadController.addClubToResume(request:Request)
 +nocsrf

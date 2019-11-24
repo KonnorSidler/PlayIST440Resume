@@ -8,19 +8,32 @@
 <h1>Resume is @resumeID</h1>
 <div>
     <h1> Clubs </h1>
-    @clubs
+    @for(c <- clubs) {
+    <h2>@c.getName()</h2><br>
+    @c.getDesc()
+    }
+
 </div>
 <div>
     <h1> Internships </h1>
-    @internships
+    @for(c <- internships) {
+    <h2>@c.getInternCompany()</h2><br>
+    @c.getPosition()<br>
+    @c.getDescription()
+    }
 </div>
 <div>
     <h1> Schooling </h1>
-    @schools
+    @for(c <- schools) {
+    <h2>@c.getSchoolName()</h2><br>
+    @c.getMajor()
+    }
 </div>
 <div>
     <h1> Skills </h1>
-    @skills
+    @for(c <- skills) {
+    @c.getSkillField()
+    }
 </div>
 
 
