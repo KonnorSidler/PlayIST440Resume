@@ -1,0 +1,46 @@
+@()
+
+@navBar("Upload Resume") {
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<h1>Add Resume</h1>
+<div>
+    Company Name<br>
+    <input type="text" name="companyName" id="companyName">
+    <button id="clubSubmitButton" onclick="addResume()">Add Resume</button>
+</div>
+
+
+
+<script type="text/javascript">
+    function addResume() {
+        console.log("Adding Resume to Database");
+        var companyName = document.getElementById("companyName").value;
+        var data = {"companyName" : companyName};
+        $.ajax({
+            type : 'POST',
+            url : '@routes.UploadController.createResumeObject',
+            data : JSON.stringify(data),
+            dataType: 'html',
+            contentType: 'application/json',
+            success : function(data) {
+                console.log("Resume Added");
+                console.log(data);
+                alert("Club submitted!");
+                var newPageURL = "/resume/edit/resume=" + data
+                window.location.href = newPageURL;
+            },
+            error : function(data) {
+                console.log("Could not submit");
+
+                alert("Something went wrong, please try again later!")
+            }
+        });
+    }
+
+
+</script>
+
+}

@@ -1,4 +1,6 @@
-@navBar("Home Page") {
+@(resumes: List[Resume])
+
+@navBar("Search Results") {
 <!DOCTYPE html>
 <html>
 
@@ -7,31 +9,40 @@
 
 
 
-		<nav id="nav">
-			<div class="innertube">
+<nav id="nav">
+    <div class="innertube">
         <br>
-			<h3>Search</h3>
-			<ul>
-				<li>Company</a></li>
-				<li><input type="text" name="company" id="companyName"><br></li>
-        <li><br></li>
-				<li>Date Range:</li>
-				<li>Start: </li>
-        <li> <input type="text" name="startdate"></a></li></li>
-				<li>End: </li>
-        <li>  <input type="text" name="enddate"></li>
-          <li><br></li>
-        <li><button id="searchButton" onclick="searchByCompanyName()"> Start Search </button></li>
-			</ul>
+        <h3>Search</h3>
+        <ul>
+            <li>Company</a></li>
+            <li><input type="text" name="company" id="companyName"><br></li>
+            <li><br></li>
+            <li>Date Range:</li>
+            <li>Start: </li>
+            <li> <input type="text" name="startdate"></a></li></li>
+            <li>End: </li>
+            <li>  <input type="text" name="enddate"></li>
+            <li><br></li>
+            <li><button id="searchButton" onclick="searchByCompanyName()"> Start Search </button></li>
+        </ul>
 
 
-			</div>
-		</nav>
+    </div>
+</nav>
 
+<div>
+    <ul>
+        @for(a <- resumes) {
+          <li>
+              <a href='/resume/resume=@a.getResumeID()'>Resume Result</a>
+          </li>
+        }
+    </ul>
+</div>
 
 </body>
 
-		<script type="text/javascript">
+<script type="text/javascript">
     function searchByCompanyName() {
         console.log("Searching for Company Name in Database");
         var companyName = document.getElementById("companyName").value;

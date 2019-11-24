@@ -1,0 +1,145 @@
+@*
+* This template is called from the `index` template. This template
+* handles the rendering of the page header and body tags. It takes
+* two arguments, a `String` for the title of the page and an `Html`
+* object to insert into the body of the page.
+*@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html>
+<title>@title</title>
+
+<!--boot strap dependency -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<!--boot strap dependency END -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>2 Column Frames Layout &mdash; Left Menu</title>
+  <style type="text/css">
+
+  body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    max-height: 100%;
+    font-family:Sans-serif;
+    line-height: 1.5em;
+  }
+
+  #nav{
+    position: static;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 230px; /* Width of navigation frame */
+    height: 100%;
+    overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
+    background: #eee;
+  }
+
+  main{
+    position: fixed;
+    top: 0;
+    left: 0; /* Set this to the width of the navigation frame */
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    background: #fff;
+  }
+
+  .innertube{
+    margin: 15px; /* Provides padding for the content */
+  }
+
+  p {
+    color: #555;
+  }
+
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav ul a {
+    color: darkgreen;
+    text-decoration: none;
+  }
+
+  /*IE6 fix*/
+  * html body{
+    padding: 0 0 0 230px; /* Set the last value to the width of the navigation frame */
+  }
+
+  * html main{
+    height: 100%;
+    width: 100%;
+  }
+  /* End of update */
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
+body, html {
+  height: 100%;
+  color: #777;
+  line-height: 1.8;
+}
+
+/* Create a Parallax Effect */
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+.Resume-Center {
+  padding: 15px;
+  border: 1px solid #4CAF50;
+}
+.w3-wide {letter-spacing: 10px;}
+.w3-hover-opacity {cursor: pointer;}
+
+.navbar {
+  margin-bottom: 0px;
+}
+
+
+
+</style>
+
+<body>
+<main>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">The Resume Files</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/resume">Create Resume</a></li>
+                <li><a href="#">Page 2</a></li>
+                <li><a href="#">Page 3</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    @content
+
+</main>
+
+</body>
+
+</html>
