@@ -1,0 +1,68 @@
+@(clubs: List[Clubs], internships: List[Interning], schools: List[Schooling], skills: List[Skills], resumeID: Long)
+
+@navBar("Viewing Resume") {
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<h1>Resume is @resumeID</h1>
+<div>
+    <h1> Clubs </h1>
+    @for(c <- clubs) {
+    <h2>@c.getName()</h2><br>
+    @c.getDesc()
+    }
+
+</div>
+<div>
+    <h1> Internships </h1>
+    @for(c <- internships) {
+    <h2>@c.getInternCompany()</h2><br>
+    @c.getPosition()<br>
+    @c.getDescription()
+    }
+</div>
+<div>
+    <h1> Schooling </h1>
+    @for(c <- schools) {
+    <h2>@c.getSchoolName()</h2><br>
+    @c.getMajor()
+    }
+</div>
+<div>
+    <h1> Skills </h1>
+    @for(c <- skills) {
+    @c.getSkillField()
+    }
+</div>
+
+
+
+<script type="text/javascript">
+    function addResume() {
+        console.log("Adding Resume to Database");
+        var companyName = document.getElementById("companyName").value;
+        var data = {"companyName" : companyName};
+        $.ajax({
+            type : 'POST',
+            url : '@routes.UploadController.createResumeObject',
+            data : JSON.stringify(data),
+            dataType: 'html',
+            contentType: 'application/json',
+            success : function(data) {
+                console.log("Resume Added");
+                alert("Club submitted!");
+                window.location.href = "/resume/edit";
+            },
+            error : function(data) {
+                console.log("Could not submit");
+
+                alert("Something went wrong, please try again later!")
+            }
+        });
+    }
+
+
+</script>
+
+}
