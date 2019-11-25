@@ -30,12 +30,15 @@
     </div>
 </nav>
 
-<div>
+<div id="results">
+    <h1>
+        <center>Search Results</center>
+    </h1>
     <ul>
         @for(a <- resumes) {
-          <li>
-              <a href='/resume/resume=@a.getResumeID()'>Resume Result</a>
-          </li>
+          <div class="resultCard">
+                <a href='/resume/resume=@a.getResumeID()'>Resume Result</a>
+          </div>
         }
     </ul>
 </div>

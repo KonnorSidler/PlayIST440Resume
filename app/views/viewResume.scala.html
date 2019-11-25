@@ -4,8 +4,9 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-
-<h1>Resume is @resumeID</h1>
+<p hidden id="resumeID">@resumeID</p>
+<center>
+<h1>Resume for Company</h1>
 <div>
     <h1> Clubs </h1>
     @for(c <- clubs) {
@@ -36,30 +37,18 @@
     }
 </div>
 
+<button onclick="editResume()">Edit Resume Information</button>
+</center>
+
 
 
 <script type="text/javascript">
-    function addResume() {
-        console.log("Adding Resume to Database");
-        var companyName = document.getElementById("companyName").value;
-        var data = {"companyName" : companyName};
-        $.ajax({
-            type : 'POST',
-            url : '@routes.UploadController.createResumeObject',
-            data : JSON.stringify(data),
-            dataType: 'html',
-            contentType: 'application/json',
-            success : function(data) {
-                console.log("Resume Added");
-                alert("Club submitted!");
-                window.location.href = "/resume/edit";
-            },
-            error : function(data) {
-                console.log("Could not submit");
 
-                alert("Something went wrong, please try again later!")
-            }
-        });
+    function editResume() {
+        console.log("Sending to edit resume");
+        var resumeID = document.getElementById("resumeID").innerText;
+        var editURL = "/resume/edit/resume=" + resumeID;
+        window.location.href = editURL;
     }
 
 

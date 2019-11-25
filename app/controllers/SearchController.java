@@ -29,6 +29,10 @@ public class SearchController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
 
+    public Result index() {
+        return ok(views.html.index.render());
+    }
+
     public Result getSearchResults(long companyID) {
         List<Resume> resumes = Resume.find.query().where().eq("companyID", companyID).findList();
         return ok(searchResults.render(resumes));

@@ -19,9 +19,11 @@ GET     /viewDBTest                 controllers.DatabaseTestController.getDBTest
 
 # Searching
 +nocsrf
-GET     /search/results=:id          controllers.SearchController.getSearchResults(id: Long)
+GET     /search                     controllers.SearchController.index
 +nocsrf
-POST    /search/getCode    controllers.SearchController.getCompanyCode(request:Request)
+GET     /search/results=:id         controllers.SearchController.getSearchResults(id: Long)
++nocsrf
+POST    /search/getCode             controllers.SearchController.getCompanyCode(request:Request)
 
 # Uploading
 +nocsrf
