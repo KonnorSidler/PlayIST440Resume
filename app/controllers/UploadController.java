@@ -65,6 +65,7 @@ public class UploadController extends Controller {
         newClub.save();
         return ok(resumeEdit.render(Long.valueOf(json.findPath("resumeID").textValue())));
     }
+    
 
     public Result addInternshipToResume(Http.Request request) {
         System.out.println("Adding Internship to Resume");
