@@ -1,4 +1,4 @@
-@(resumes: List[Resume], company: Company)
+@(resumes: List[Resume], company: Company, companies: List[Company])
 
 @navBar("Search Results") {
 <!DOCTYPE html>
@@ -15,14 +15,19 @@
         <h3>Search</h3>
         <ul>
             <li>Company</a></li>
-            <li><input type="text" name="company" id="companyName"><br></li>
+            <li><select name="company" id="companyName">
+                <option></option>
+                @for(a <- companies) {
+                    <option>@a.getCompanyName()</option>
+                }
+            </select><br></li>
             <li><br></li>
-            <li>Date Range:</li>
-            <li>Start: </li>
-            <li> <input type="text" name="startdate"></a></li></li>
-            <li>End: </li>
-            <li>  <input type="text" name="enddate"></li>
-            <li><br></li>
+<!--            <li>Date Range:</li>-->
+<!--            <li>Start: </li>-->
+<!--            <li> <input type="text" name="startdate"></a></li></li>-->
+<!--            <li>End: </li>-->
+<!--            <li>  <input type="text" name="enddate"></li>-->
+<!--            <li><br></li>-->
             <li><button id="searchButton" onclick="searchByCompanyName()"> Start Search </button></li>
         </ul>
 
