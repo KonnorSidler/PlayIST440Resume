@@ -1,3 +1,5 @@
+@(companies: List[Company])
+
 @navBar("Home Page") {
 <!DOCTYPE html>
 <html>
@@ -7,26 +9,31 @@
 
 
 
-		<nav id="nav">
-			<div class="innertube">
-        <br>
-			<h3>Search</h3>
-			<ul>
-				<li>Company</a></li>
-				<li><input type="text" name="company" id="companyName"><br></li>
-        <li><br></li>
-				<li>Date Range:</li>
-				<li>Start: </li>
-        <li> <input type="text" name="startdate"></a></li></li>
-				<li>End: </li>
-        <li>  <input type="text" name="enddate"></li>
-          <li><br></li>
-        <li><button id="searchButton" onclick="searchByCompanyName()"> Start Search </button></li>
-			</ul>
+<nav id="nav">
+	<div class="innertube">
+		<br>
+		<h3>Search</h3>
+		<ul>
+			<li>Company</a></li>
+			<li><select name="company" id="companyName">
+				<option></option>
+				@for(a <- companies) {
+				<option>@a.getCompanyName()</option>
+				}
+			</select><br></li>
+			<li><br></li>
+<!--			<li>Date Range:</li>-->
+<!--			<li>Start: </li>-->
+<!--			<li> <input type="text" name="startdate"></a></li></li>-->
+<!--			<li>End: </li>-->
+<!--			<li>  <input type="text" name="enddate"></li>-->
+<!--			<li><br></li>-->
+			<li><button id="searchButton" onclick="searchByCompanyName()"> Start Search </button></li>
+		</ul>
 
 
-			</div>
-		</nav>
+	</div>
+</nav>
 
 
 </body>

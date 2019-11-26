@@ -33,6 +33,6 @@ public class DatabaseTestController extends Controller {
         Form<DatabaseTest> dbTestForm = formFactory.form(DatabaseTest.class).bindFromRequest(request);
         DatabaseTest dbTest = dbTestForm.get();
         dbTest.save();
-        return redirect(routes.HomeController.index());
+        return redirect(routes.SearchController.index());
     }
 }

@@ -36,7 +36,8 @@ public class UploadController extends Controller {
 
     public Result uploadPage() {
         System.out.println("Going to upload page");
-        return ok(upload.render());
+        List<Company> companies = Company.find.all();
+        return ok(upload.render(companies));
     }
 
     public Result companyCreatePage() {
@@ -135,7 +136,8 @@ public class UploadController extends Controller {
         Company newCompany = new Company();
         newCompany.setCompanyName(json.findPath("companyName").textValue());
         newCompany.save();
-        return ok(upload.render());
+        List<Company> companies = Company.find.all();
+        return ok(upload.render(companies));
     }
 
     public Result getClubs() {

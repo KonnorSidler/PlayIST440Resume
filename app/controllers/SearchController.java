@@ -30,12 +30,15 @@ public class SearchController extends Controller {
      */
 
     public Result index() {
-        return ok(views.html.index.render());
+        List<Company> companies = Company.find.all();
+        return ok(views.html.index.render(companies));
     }
 
     public Result getSearchResults(long companyID) {
         List<Resume> resumes = Resume.find.query().where().eq("companyID", companyID).findList();
-        return ok(searchResults.render(resumes));
+        Company company = Company.find.query().where().eq("companyID", companyID).findOne();
+        List<Company> companies = Company.find.all();
+        return ok(searchResults.render(resumes, company, companies));
     }
 
     public Result getCompanyCode(Http.Request request) {

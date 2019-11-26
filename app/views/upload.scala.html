@@ -1,4 +1,4 @@
-@()
+@(companies: List[Company])
 
 @navBar("Upload Resume") {
 
@@ -6,18 +6,54 @@
 
 
 <h1>Add Resume</h1>
-<div>
+<div class="resultCard">
     Company Name<br>
-    <input type="text" name="companyName" id="companyName">
-    <button id="clubSubmitButton" onclick="addResume()">Add Resume</button>
+    <select name="companyName" id="companyName">
+        <option></option>
+        @for(a <- companies) {
+            <option>@a.getCompanyName()</option>
+        }
+    </select><br>
+    <button id="companySubmitButton" onclick="addResumeBySelector()">Add Resume</button>
+</div>
+
+<div class="resultCard">
+    Don't see your company? Add it to our list!<br>
+    <input type="text" name="newCompanyName" id="newCompanyName"><br>
+    <button id="newCompanySubmitButton" onclick="addResumeByName()">Add Resume with New Company</button>
 </div>
 
 
 
 <script type="text/javascript">
-    function addResume() {
+    function addResumeBySelector() {
         console.log("Adding Resume to Database");
         var companyName = document.getElementById("companyName").value;
+        var data = {"companyName" : companyName};
+        $.ajax({
+            type : 'POST',
+            url : '@routes.UploadController.createResumeObject',
+            data : JSON.stringify(data),
+            dataType: 'html',
+            contentType: 'application/json',
+            success : function(data) {
+                console.log("Resume Added");
+                console.log(data);
+                alert("Club submitted!");
+                var newPageURL = "/resume/edit/resume=" + data
+                window.location.href = newPageURL;
+            },
+            error : function(data) {
+                console.log("Could not submit");
+
+                alert("Something went wrong, please try again later!")
+            }
+        });
+    }
+
+    function addResumeByName() {
+        console.log("Adding Resume to Database");
+        var companyName = document.getElementById("newCompanyName").value;
         var data = {"companyName" : companyName};
         $.ajax({
             type : 'POST',
