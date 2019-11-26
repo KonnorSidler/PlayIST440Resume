@@ -7,7 +7,7 @@
 <p hidden id="resumeID">@resumeID</p>
 <center>
 <h1>Resume for Company</h1>
-<div>
+<div class="resultCard">
     <h1> Clubs </h1>
     @for(c <- clubs) {
     <h2>@c.getName()</h2><br>
@@ -15,7 +15,7 @@
     }
 
 </div>
-<div>
+<div class="resultCard">
     <h1> Internships </h1>
     @for(c <- internships) {
     <h2>@c.getInternCompany()</h2><br>
@@ -23,19 +23,20 @@
     @c.getDescription()
     }
 </div>
-<div>
+<div class="resultCard">
     <h1> Schooling </h1>
     @for(c <- schools) {
     <h2>@c.getSchoolName()</h2><br>
     @c.getMajor()
     }
 </div>
-<div>
+<div class="resultCard">
     <h1> Skills </h1>
     @for(c <- skills) {
-    @c.getSkillField()
+    @c.getSkillField()<br>
     }
 </div>
+<div class="buttonSpacer"></div>
 
 <button onclick="editResume()">Edit Resume Information</button>
 </center>

@@ -1,4 +1,4 @@
-@(resumes: List[Resume])
+@(resumes: List[Resume], company: Company)
 
 @navBar("Search Results") {
 <!DOCTYPE html>
@@ -37,7 +37,7 @@
     <ul>
         @for(a <- resumes) {
           <div class="resultCard">
-                <a href='/resume/resume=@a.getResumeID()'>Resume Result</a>
+                <a href='/resume/resume=@a.getResumeID()'>Resume Result for @company.getCompanyName()</a>
           </div>
         }
     </ul>

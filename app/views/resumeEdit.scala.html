@@ -5,7 +5,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
-<p id="resumeId">@resumeID</p>
+<p hidden id="resumeId">@resumeID</p>
+<div id="informationEntry">
 <h1>Add Club To Resume</h1>
 <div>
     Club Name <br>
@@ -41,10 +42,26 @@
     <input type="text" name="skillField" id="skillField"><br>
     <button id="skillSubmitButton" onclick="addSkills()">Add Skills</button>
 </div>
+    <center>
+    <div class="buttonSpacer"></div>
+    </center>
+</div>
+<center>
+<button onclick="returnToResume()">Return To Resume</button>
+</center>
+<div class="buttonSpacer"></div>
 
 
 
 <script type="text/javascript">
+
+    function returnToResume() {
+        console.log("Returning to resume view");
+        var resumeID = document.getElementById("resumeId").innerText;
+        var newURL = "/resume/resume=" + resumeID;
+        window.location.href = newURL;
+    }
+
     function addClub() {
         console.log("Adding Club to Database Mapping");
         var clubName  = document.getElementById("clubName").value;

@@ -35,7 +35,8 @@ public class SearchController extends Controller {
 
     public Result getSearchResults(long companyID) {
         List<Resume> resumes = Resume.find.query().where().eq("companyID", companyID).findList();
-        return ok(searchResults.render(resumes));
+        Company company = Company.find.query().where().eq("companyID", companyID).findOne();
+        return ok(searchResults.render(resumes, company));
     }
 
     public Result getCompanyCode(Http.Request request) {
