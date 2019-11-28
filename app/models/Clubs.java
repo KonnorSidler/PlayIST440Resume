@@ -14,6 +14,9 @@ import java.util.*;
 @Entity
 public class Clubs extends Model {
 
+    @Id
+    private long clubID;
+
     private long linkedResume;
 
     private String clubName;
@@ -21,6 +24,10 @@ public class Clubs extends Model {
     private String clubDescription;
 
     public static final Finder<Long, Clubs> find = new Finder<>(Clubs.class);
+
+    public long getID() {
+        return clubID;
+    }
 
     public void setLinkedResume(long resumeID) {
         linkedResume = resumeID;

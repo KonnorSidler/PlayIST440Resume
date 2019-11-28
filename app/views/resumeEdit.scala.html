@@ -1,4 +1,4 @@
-@(resumeID: Long)
+@(clubs: List[Clubs], internships: List[Interning], schools: List[Schooling], skills: List[Skills], resumeID: Long)
 
 @navBar("Update Resume") {
 
@@ -7,51 +7,102 @@
 
 <p hidden id="resumeId">@resumeID</p>
 <div id="informationEntry">
-<h1>Add Club To Resume</h1>
-<div>
-    Club Name <br>
-    <input type="text" name="clubName" id="clubName">
-    Club Description <br>
-    <input type="text" name="clubDescription" id="clubDesc"><br>
-    <button id="clubSubmitButton" onclick="addClub()">Add Club</button>
-</div>
-<br>
-<h1>Add Internship To Resume</h1>
-<div>
-    Internship Company <br>
-    <input type="text" name="internCompany" id="internCompany"><br>
-    Intern Position <br>
-    <input type="text" name="internPosition" id="internPosition"><br>
-    Internship Description <br>
-    <input type="text" name="internDescription" id="internDescription"><br>
-    <button id="internSubmitButton" onclick="addIntern()">Add Internship</button>
-</div>
-<br>
-<h1>Add School To Resume</h1>
-<div>
-    School Name <br>
-    <input type="text" name="schoolName" id="schoolName"><br>
-    School Major<br>
-    <input type="text" name="schoolMajor" id="schoolMajor"><br>
-    <button id="schoolSubmitButton" onclick="addSchool()">Add School</button>
-</div>
-<br>
-<h1>Add Skills To Resume</h1>
-<div>
-    Applicable Skills <br>
-    <input type="text" name="skillField" id="skillField"><br>
-    <button id="skillSubmitButton" onclick="addSkills()">Add Skills</button>
-</div>
+    <div class="editContainer">
+        <div class="editView">
+            <h1>Clubs</h1>
+            @for(c <- clubs) {
+                <h2>@c.getName()</h2><br>
+                @c.getDesc()
+                <p hidden id="club-@c.getID()">c.getID()</p><br>
+                <button onclick="deleteObject('club', @c.getID())">Delete Club</button>
+            }
+        </div>
+        <div class="editEdit">
+            <h1>Add Club To Resume</h1>
+            <div>
+                Club Name <br>
+                <input type="text" name="clubName" id="clubName"><br>
+                Club Description <br>
+                <input type="text" name="clubDescription" id="clubDesc"><br>
+                <button id="clubSubmitButton" onclick="addClub()">Add Club</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="editContainer">
+        <div class="editView">
+            <h1> Internships </h1>
+            @for(c <- internships) {
+            <h2>@c.getInternCompany()</h2><br>
+            @c.getPosition()<br>
+            @c.getDescription()
+            }
+        </div>
+        <div class="editEdit">
+            <h1>Add Internship To Resume</h1>
+            <div>
+                Internship Company <br>
+                <input type="text" name="internCompany" id="internCompany"><br>
+                Intern Position <br>
+                <input type="text" name="internPosition" id="internPosition"><br>
+                Internship Description <br>
+                <input type="text" name="internDescription" id="internDescription"><br>
+                <button id="internSubmitButton" onclick="addIntern()">Add Internship</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="editContainer">
+        <div class="editView">
+            <h1> Schooling </h1>
+            @for(c <- schools) {
+            <h2>@c.getSchoolName()</h2><br>
+            @c.getMajor()
+            }
+        </div>
+        <div class="editEdit">
+            <h1>Add School To Resume</h1>
+            <div>
+                School Name <br>
+                <input type="text" name="schoolName" id="schoolName"><br>
+                School Major<br>
+                <input type="text" name="schoolMajor" id="schoolMajor"><br>
+                <button id="schoolSubmitButton" onclick="addSchool()">Add School</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="editContainer">
+        <div class="editView">
+            <h1> Skills </h1>
+            @for(c <- skills) {
+            @c.getSkillField()<br>
+            }
+        </div>
+        <div class="editEdit">
+            <h1>Add Skills To Resume</h1>
+            <div>
+                Applicable Skills <br>
+                <input type="text" name="skillField" id="skillField"><br>
+                <button id="skillSubmitButton" onclick="addSkills()">Add Skills</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <br>
+
+    <br>
+
     <center>
-    <div class="buttonSpacer"></div>
+        <div class="buttonSpacer"></div>
     </center>
 </div>
 <center>
-<button onclick="returnToResume()">Return To Resume</button>
+    <button onclick="returnToResume()">Return To Resume</button>
 </center>
 <div class="buttonSpacer"></div>
-
-
 
 <script type="text/javascript">
 
@@ -61,6 +112,37 @@
         var newURL = "/resume/resume=" + resumeID;
         window.location.href = newURL;
     }
+
+    function deleteObject(object, objectID) {
+        console.log("Deleting" + object);
+
+        var resumeID = document.getElementById("resumeId").innerText;
+
+        var data = {"objectType" : object,
+                    "objectID" : objectID,
+                    "resumeID" : resumeID};
+
+        $.ajax({
+            type : 'POST',
+            url : '@routes.UploadController.deleteObject',
+            data : JSON.stringify(data),
+            dataType: 'html',
+            contentType: 'application/json',
+            success : function(data) {
+                console.log("Object Deleted");
+                alert(object + "Deleted");
+                var newURL = "/resume/edit/resume=" + data;
+                window.location.href = newURL;
+            },
+            error : function(data) {
+                console.log("Could not submit");
+
+                alert("Something went wrong, please try again later!")
+            }
+        });
+    }
+
+
 
     function addClub() {
         console.log("Adding Club to Database Mapping");
@@ -81,6 +163,8 @@
             success : function(data) {
                 console.log("Club Added To Resume");
                 alert("Club submitted!");
+                var newURL = "/resume/edit/resume=" + data;
+                window.location.href = newURL;
             },
             error : function(data) {
                 console.log("Could not submit");
@@ -109,6 +193,8 @@
             success : function(data) {
                 console.log("Internship Added To Resume");
                 alert("Internship submitted!");
+                var newURL = "/resume/edit/resume=" + data;
+                window.location.href = newURL;
             },
             error : function(data) {
                 console.log("Could not submit");
@@ -135,6 +221,8 @@
             success : function(data) {
                 console.log("School Added To Resume");
                 alert("School submitted!");
+                var newURL = "/resume/edit/resume=" + data;
+                window.location.href = newURL;
             },
             error : function(data) {
                 console.log("Could not submit");
@@ -159,6 +247,8 @@
             success : function(data) {
                 console.log("Skills Added To Resume");
                 alert("Skills submitted!");
+                var newURL = "/resume/edit/resume=" + data;
+                window.location.href = newURL;
             },
             error : function(data) {
                 console.log("Could not submit");

@@ -4,9 +4,11 @@
 # --- !Ups
 
 create table clubs (
+  club_id                       bigserial not null,
   linked_resume                 bigint not null,
   club_name                     varchar(255),
-  club_description              varchar(255)
+  club_description              varchar(255),
+  constraint pk_clubs primary key (club_id)
 );
 
 create table company (
@@ -25,10 +27,12 @@ create table favorite_map (
 );
 
 create table interning (
+  internship_id                 bigserial not null,
   linked_resume                 bigint not null,
   intern_company                varchar(255),
   position                      varchar(255),
-  description                   varchar(255)
+  description                   varchar(255),
+  constraint pk_interning primary key (internship_id)
 );
 
 create table resume (
@@ -38,14 +42,18 @@ create table resume (
 );
 
 create table schooling (
+  school_id                     bigserial not null,
   linked_resume                 bigint not null,
   school_name                   varchar(255),
-  major                         varchar(255)
+  major                         varchar(255),
+  constraint pk_schooling primary key (school_id)
 );
 
 create table skills (
+  skills_id                     bigserial not null,
   linked_resume                 bigint not null,
-  skill_field                   varchar(255)
+  skill_field                   varchar(255),
+  constraint pk_skills primary key (skills_id)
 );
 
 create table user_account (

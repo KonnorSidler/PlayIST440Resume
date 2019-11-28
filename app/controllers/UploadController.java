@@ -31,7 +31,11 @@ public class UploadController extends Controller {
      */
     public Result index(long resumeID) {
         System.out.println("Going to upload edit index");
-        return ok(resumeEdit.render(resumeID));
+        List<Clubs> clubs = Clubs.find.query().where().eq("linkedResume", resumeID).findList();
+        List<Interning> internships = Interning.find.query().where().eq("linkedResume", resumeID).findList();
+        List<Schooling> schools = Schooling.find.query().where().eq("linkedResume", resumeID).findList();
+        List<Skills> skills = Skills.find.query().where().eq("linkedResume", resumeID).findList();
+        return ok(resumeEdit.render(clubs, internships, schools, skills, resumeID));
     }
 
     public Result uploadPage() {
@@ -63,9 +67,9 @@ public class UploadController extends Controller {
         newClub.setLinkedResume(Long.valueOf(json.findPath("resumeID").textValue()));
         System.out.println(newClub.getName() + "||" + newClub.getLinkedResume() + "||" + newClub.getDesc());
         newClub.save();
-        return ok(resumeEdit.render(Long.valueOf(json.findPath("resumeID").textValue())));
+        return ok(json.findPath("resumeID").textValue());
     }
-    
+
 
     public Result addInternshipToResume(Http.Request request) {
         System.out.println("Adding Internship to Resume");
@@ -78,7 +82,7 @@ public class UploadController extends Controller {
         newInternship.setPosition(json.findPath("internPosition").textValue());
         System.out.println(newInternship.toString());
         newInternship.save();
-        return ok(resumeEdit.render(Long.valueOf(json.findPath("resumeID").textValue())));
+        return ok(json.findPath("resumeID").textValue());
     }
 
     public Result addSchoolToResume(Http.Request request) {
@@ -91,7 +95,7 @@ public class UploadController extends Controller {
         newSchool.setLinkedResume(Long.valueOf(json.findPath("resumeID").textValue()));
         System.out.println(newSchool.toString());
         newSchool.save();
-        return ok(resumeEdit.render(Long.valueOf(json.findPath("resumeID").textValue())));
+        return ok(json.findPath("resumeID").textValue());
     }
 
     public Result addSkillsToResume(Http.Request request) {
@@ -103,7 +107,38 @@ public class UploadController extends Controller {
         newSkills.setLinkedResume(Long.valueOf(json.findPath("resumeID").textValue()));
         System.out.println(newSkills.toString());
         newSkills.save();
-        return ok(resumeEdit.render(Long.valueOf(json.findPath("resumeID").textValue())));
+        return ok(json.findPath("resumeID").textValue());
+    }
+
+    public Result deleteObject(Http.Request request) {
+        System.out.println("Deleting object in handler");
+        JsonNode json = request.body().asJson();
+        System.out.println(json);
+        String objectType = json.findPath("objectType").textValue();
+        long id;
+
+        switch (objectType){
+            case "club":
+                id = json.findPath("objectID").longValue();
+                Clubs.find.deleteById(id);
+                break;
+            case "internship":
+                id = json.findPath("objectID").longValue();
+                Interning.find.deleteById(id);
+                break;
+            case "school":
+                id = json.findPath("objectID").longValue();
+                Schooling.find.deleteById(id);
+                break;
+            case "skill":
+                id = json.findPath("objectID").longValue();
+                Skills.find.deleteById(id);;
+                break;
+            default:
+                System.out.println("ObjectType not recognized");
+        }
+
+        return ok(json.findPath("resumeID").textValue());
     }
 
     public Result createResumeObject(Http.Request request) {

@@ -14,6 +14,9 @@ import java.util.*;
 @Entity
 public class Interning extends Model {
 
+    @Id
+    private long internshipID;
+
     private long linkedResume;
 
     private String internCompany;
@@ -23,6 +26,10 @@ public class Interning extends Model {
     private String description;
 
     public static final Finder<Long, Interning> find = new Finder<>(Interning.class);
+
+    public long getID() {
+        return internshipID;
+    }
 
     public void setLinkedResume(long resumeID) {
         linkedResume = resumeID;

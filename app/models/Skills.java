@@ -14,11 +14,18 @@ import java.util.*;
 @Entity
 public class Skills extends Model {
 
+    @Id
+    private long skillsID;
+
     private long linkedResume;
 
     private String skillField;
 
     public static final Finder<Long, Skills> find = new Finder<>(Skills.class);
+
+    public long getID() {
+        return skillsID;
+    }
 
     public void setLinkedResume(long resumeID) {
         linkedResume = resumeID;
