@@ -3,7 +3,6 @@
 
 # --- !Ups
 
-
 create table clubs (
   club_id                       bigserial not null,
   linked_resume                 bigint not null,
