@@ -36,6 +36,8 @@
             <h2>@c.getInternCompany()</h2><br>
             @c.getPosition()<br>
             @c.getDescription()
+            <p hidden id="internship-@c.getID()">c.getID()</p><br>
+            <button onclick="deleteObject('internship', @c.getID())">Delete Internship</button>
             }
         </div>
         <div class="editEdit">
@@ -58,6 +60,8 @@
             @for(c <- schools) {
             <h2>@c.getSchoolName()</h2><br>
             @c.getMajor()
+            <p hidden id="school-@c.getID()">c.getID()</p><br>
+            <button onclick="deleteObject('school', @c.getID())">Delete School</button>
             }
         </div>
         <div class="editEdit">
@@ -77,6 +81,8 @@
             <h1> Skills </h1>
             @for(c <- skills) {
             @c.getSkillField()<br>
+            <p hidden id="skill-@c.getID()">c.getID()</p><br>
+            <button onclick="deleteObject('skill', @c.getID())">Delete Skills</button>
             }
         </div>
         <div class="editEdit">
@@ -130,7 +136,7 @@
             contentType: 'application/json',
             success : function(data) {
                 console.log("Object Deleted");
-                alert(object + "Deleted");
+                alert(object + " Deleted");
                 var newURL = "/resume/edit/resume=" + data;
                 window.location.href = newURL;
             },
