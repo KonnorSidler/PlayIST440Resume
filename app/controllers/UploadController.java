@@ -50,7 +50,8 @@ public class UploadController extends Controller {
         List<Interning> internships = Interning.find.query().where().eq("linkedResume", resumeID).findList();
         List<Schooling> schools = Schooling.find.query().where().eq("linkedResume", resumeID).findList();
         List<Skills> skills = Skills.find.query().where().eq("linkedResume", resumeID).findList();
-        return ok(resumeEdit.render(clubs, internships, schools, skills, resumeID));
+        List<ResumePDF> pdfs = ResumePDF.find.query().where().eq("linkedResume", resumeID).findList();
+        return ok(resumeEdit.render(clubs, internships, schools, skills, pdfs,  resumeID));
     }
 
     public Result uploadPage() {
@@ -69,7 +70,8 @@ public class UploadController extends Controller {
         List<Interning> internships = Interning.find.query().where().eq("linkedResume", resumeID).findList();
         List<Schooling> schools = Schooling.find.query().where().eq("linkedResume", resumeID).findList();
         List<Skills> skills = Skills.find.query().where().eq("linkedResume", resumeID).findList();
-        return ok(viewResume.render(clubs, internships, schools, skills, resumeID));
+        List<ResumePDF> pdfs = ResumePDF.find.query().where().eq("linkedResume", resumeID).findList();
+        return ok(viewResume.render(clubs, internships, schools, skills, pdfs, resumeID));
     }
 
     public Result addClubToResume(Http.Request request) {
@@ -191,7 +193,7 @@ public class UploadController extends Controller {
         return ok(upload.render(companies));
     }
 
-    public Result uploadFileToS3(Http.Request request) {
+    public Result uploadFileToS3(Http.Request request, long resumeID) {
         Http.MultipartFormData<TemporaryFile> body = request.body().asMultipartFormData();
         Http.MultipartFormData.FilePart<TemporaryFile> pdf = body.getFile("pdf");
 
@@ -221,6 +223,10 @@ public class UploadController extends Controller {
                     s3Client.putObject(new PutObjectRequest(bucketName, filename, file).withAccessControlList(acl));
 
                     String pdfFilePath = "http://" + bucketName+ ".s3.amazonaws.com/" + filename;
+                    ResumePDF newPDF = new ResumePDF();
+                    newPDF.setLinkedResume(resumeID);
+                    newPDF.setPdfAWSPath(pdfFilePath);
+                    newPDF.save();
                     return ok("Resume uploaded: " + pdfFilePath);
                 } catch (Exception e) {
                     System.out.println("Error After Creds");
@@ -259,6 +265,11 @@ public class UploadController extends Controller {
 
     public Result getResumes() {
         List<Resume> resumes = Resume.find.all();
+        return ok(Json.toJson(resumes));
+    }
+
+    public Result getPDFs() {
+        List<ResumePDF> resumes = ResumePDF.find.all();
         return ok(Json.toJson(resumes));
     }
 }

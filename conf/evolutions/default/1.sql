@@ -41,6 +41,13 @@ create table resume (
   constraint pk_resume primary key (resume_id)
 );
 
+create table resume_pdf (
+  pdf_id                        bigserial not null,
+  linked_resume                 bigint not null,
+  pdf_awspath                   varchar(255),
+  constraint pk_resume_pdf primary key (pdf_id)
+);
+
 create table schooling (
   school_id                     bigserial not null,
   linked_resume                 bigint not null,
@@ -77,6 +84,8 @@ drop table if exists favorite_map cascade;
 drop table if exists interning cascade;
 
 drop table if exists resume cascade;
+
+drop table if exists resume_pdf cascade;
 
 drop table if exists schooling cascade;
 

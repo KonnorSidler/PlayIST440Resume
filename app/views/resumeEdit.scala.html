@@ -1,4 +1,4 @@
-@(clubs: List[Clubs], internships: List[Interning], schools: List[Schooling], skills: List[Skills], resumeID: Long)
+@(clubs: List[Clubs], internships: List[Interning], schools: List[Schooling], skills: List[Skills], pdfs: List[ResumePDF], resumeID: Long)
 
 @navBar("Update Resume") {
 
@@ -96,10 +96,20 @@
         </div>
     </div>
     <div class="editContainer">
-        <form action="@routes.UploadController.uploadFileToS3()" enctype="multipart/form-data" method="post">
-            <input type="file" name="pdf"><br>
-            <input type="submit">
-        </form>
+        <div class="editView">
+            <h1> PDFs </h1>
+            @for(c <- pdfs) {
+                <a href="@c.getPdfAWSPath()">Download PDF</a><br>
+            }
+        </div>
+        <div class="editEdit">
+            <form action="@routes.UploadController.uploadFileToS3(resumeID)" enctype="multipart/form-data" method="post">
+                <input type="file" name="pdf"><br>
+                <input type="text" name="resumeID" value="@resumeID" hidden>
+                <input type="submit">
+            </form>
+
+        </div>
     </div>
 
 
