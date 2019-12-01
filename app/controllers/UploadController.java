@@ -4,13 +4,20 @@ import models.*;
 import play.mvc.*;
 import views.html.*;
 import play.data.FormFactory;
+import play.api.Play;
 import play.data.Form;
 import javax.inject.Inject;
+import com.typesafe.config.Config;
 import java.util.List;
+import java.io.File;
+import play.libs.Files.TemporaryFile;
 import java.util.ArrayList;
 import io.ebean.Model;
 import play.libs.Json;
 import play.libs.Json.*;
+import com.amazonaws.auth.*;
+import com.amazonaws.services.s3.*;
+import com.amazonaws.services.s3.model.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -20,8 +27,16 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * to the application's home page.
  */
 public class UploadController extends Controller {
+
+    private final Config config;
     @Inject
     FormFactory formFactory;
+
+    @Inject
+    public UploadController(Config config) {
+        this.config = config;
+    }
+
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -174,6 +189,52 @@ public class UploadController extends Controller {
         newCompany.save();
         List<Company> companies = Company.find.all();
         return ok(upload.render(companies));
+    }
+
+    public Result uploadFileToS3(Http.Request request) {
+        Http.MultipartFormData<TemporaryFile> body = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> pdf = body.getFile("pdf");
+
+        if (pdf != null) {
+            try {
+                System.out.println("Trying to pull ref from file");
+                TemporaryFile tempFile = pdf.getRef();
+                System.out.println("Temp File Made");
+                File file = tempFile.path().toFile();
+                System.out.println("File Made from Temp File");
+                String filename = pdf.getFilename();
+                System.out.println("File Name Made");
+
+                String accessKey = config.getString("aws.access.key");
+                String secret = config.getString("aws.secret.key");
+                String bucketName = config.getString("aws.bucketName");
+
+                System.out.println(accessKey + " " + secret + " " + bucketName);
+
+
+                try {
+                    AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secret);
+                    AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
+                    AccessControlList acl = new AccessControlList();
+                    acl.grantPermission(GroupGrantee.AllUsers, Permission.Read);
+                    s3Client.createBucket(bucketName);
+                    s3Client.putObject(new PutObjectRequest(bucketName, filename, file).withAccessControlList(acl));
+
+                    String pdfFilePath = "http://" + bucketName+ ".s3.amazonaws.com/" + filename;
+                    return ok("Resume uploaded: " + pdfFilePath);
+                } catch (Exception e) {
+                    System.out.println("Error After Creds");
+                    e.printStackTrace();
+                    return ok("Resume was not uploaded");
+                }
+
+            } catch(Exception e) {
+                return internalServerError(e.getMessage());
+            }
+        } else {
+            System.out.println("Missed the Try Block");
+            return badRequest();
+        }
     }
 
     public Result getClubs() {

@@ -3,6 +3,7 @@
 @navBar("Update Resume") {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type='text/javascript' src='@routes.Assets.versioned("javascripts/s3Upload.js")'></script>
 
 
 <p hidden id="resumeId">@resumeID</p>
@@ -94,6 +95,12 @@
             </div>
         </div>
     </div>
+    <div class="editContainer">
+        <form action="@routes.UploadController.uploadFileToS3()" enctype="multipart/form-data" method="post">
+            <input type="file" name="pdf"><br>
+            <input type="submit">
+        </form>
+    </div>
 
 
 
@@ -107,6 +114,7 @@
 </div>
 <center>
     <button onclick="returnToResume()">Return To Resume</button>
+    <button onclick="checkCreds()">Check Creds</button>
 </center>
 <div class="buttonSpacer"></div>
 
