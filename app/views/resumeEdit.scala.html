@@ -4,6 +4,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type='text/javascript' src='@routes.Assets.versioned("javascripts/s3Upload.js")'></script>
+@helper.CSRF.formField
 
 
 <p hidden id="resumeId">@resumeID</p>
@@ -205,6 +206,13 @@
         var data = {"clubName" : clubName,
                     "clubDescription" : clubDescription,
                     "resumeID" : resumeID};
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
             url : '@routes.UploadController.addClubToResume',
