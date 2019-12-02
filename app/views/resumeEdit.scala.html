@@ -1,8 +1,9 @@
-@(clubs: List[Clubs], internships: List[Interning], schools: List[Schooling], skills: List[Skills], resumeID: Long)
+@(clubs: List[Clubs], internships: List[Interning], schools: List[Schooling], skills: List[Skills], pdfs: List[ResumePDF], resumeID: Long)
 
 @navBar("Update Resume") {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type='text/javascript' src='@routes.Assets.versioned("javascripts/s3Upload.js")'></script>
 
 
 <p hidden id="resumeId">@resumeID</p>
@@ -94,6 +95,25 @@
             </div>
         </div>
     </div>
+    <div class="editContainer">
+        <div class="editView">
+            <h1> PDFs </h1>
+            @for(c <- pdfs) {
+                <a href="@c.getPdfAWSPath()">Download PDF</a>
+            <button onclick="deletePDF(@c.getPdfID())">Remove PDF</button>
+            <br>
+
+            }
+        </div>
+        <div class="editEdit">
+            <form action="@routes.UploadController.uploadFileToS3(resumeID)" enctype="multipart/form-data" method="post">
+                <input type="file" name="pdf"><br>
+                <input type="text" name="resumeID" value="@resumeID" hidden>
+                <input type="submit">
+            </form>
+
+        </div>
+    </div>
 
 
 
@@ -107,6 +127,7 @@
 </div>
 <center>
     <button onclick="returnToResume()">Return To Resume</button>
+    <button onclick="checkCreds()">Check Creds</button>
 </center>
 <div class="buttonSpacer"></div>
 
@@ -142,6 +163,31 @@
             },
             error : function(data) {
                 console.log("Could not submit");
+
+                alert("Something went wrong, please try again later!")
+            }
+        });
+    }
+
+    function deletePDF(pdfID) {
+        var data = {"pdfID" : pdfID};
+
+        var resumeID = document.getElementById("resumeId").innerText;
+
+        $.ajax({
+            type : 'POST',
+            url : '@routes.UploadController.deletePDF',
+            data : JSON.stringify(data),
+            dataType: 'html',
+            contentType: 'application/json',
+            success : function(data) {
+                console.log("Object Deleted");
+                alert("PDF Deleted");
+                var newURL = "/resume/edit/resume=" + resumeID;
+                window.location.href = newURL;
+            },
+            error : function(data) {
+                console.log("Could not delete");
 
                 alert("Something went wrong, please try again later!")
             }

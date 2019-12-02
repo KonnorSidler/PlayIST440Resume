@@ -4,15 +4,23 @@ import models.*;
 import play.mvc.*;
 import views.html.*;
 import play.data.FormFactory;
+import play.api.Play;
 import play.data.Form;
 import javax.inject.Inject;
+import com.typesafe.config.Config;
 import java.util.List;
+import java.io.File;
+import play.libs.Files.TemporaryFile;
 import java.util.ArrayList;
 import io.ebean.Model;
 import play.libs.Json;
 import play.libs.Json.*;
+import com.amazonaws.auth.*;
+import com.amazonaws.services.s3.*;
+import com.amazonaws.services.s3.model.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.amazonaws.AmazonServiceException;
 
 
 /**
@@ -20,8 +28,16 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * to the application's home page.
  */
 public class UploadController extends Controller {
+
+    private final Config config;
     @Inject
     FormFactory formFactory;
+
+    @Inject
+    public UploadController(Config config) {
+        this.config = config;
+    }
+
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -35,7 +51,8 @@ public class UploadController extends Controller {
         List<Interning> internships = Interning.find.query().where().eq("linkedResume", resumeID).findList();
         List<Schooling> schools = Schooling.find.query().where().eq("linkedResume", resumeID).findList();
         List<Skills> skills = Skills.find.query().where().eq("linkedResume", resumeID).findList();
-        return ok(resumeEdit.render(clubs, internships, schools, skills, resumeID));
+        List<ResumePDF> pdfs = ResumePDF.find.query().where().eq("linkedResume", resumeID).findList();
+        return ok(resumeEdit.render(clubs, internships, schools, skills, pdfs,  resumeID));
     }
 
     public Result uploadPage() {
@@ -54,7 +71,8 @@ public class UploadController extends Controller {
         List<Interning> internships = Interning.find.query().where().eq("linkedResume", resumeID).findList();
         List<Schooling> schools = Schooling.find.query().where().eq("linkedResume", resumeID).findList();
         List<Skills> skills = Skills.find.query().where().eq("linkedResume", resumeID).findList();
-        return ok(viewResume.render(clubs, internships, schools, skills, resumeID));
+        List<ResumePDF> pdfs = ResumePDF.find.query().where().eq("linkedResume", resumeID).findList();
+        return ok(viewResume.render(clubs, internships, schools, skills, pdfs, resumeID));
     }
 
     public Result addClubToResume(Http.Request request) {
@@ -176,6 +194,84 @@ public class UploadController extends Controller {
         return ok(upload.render(companies));
     }
 
+    public Result uploadFileToS3(Http.Request request, long resumeID) {
+        Http.MultipartFormData<TemporaryFile> body = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> pdf = body.getFile("pdf");
+
+        if (pdf != null) {
+            try {
+                System.out.println("Trying to pull ref from file");
+                TemporaryFile tempFile = pdf.getRef();
+                System.out.println("Temp File Made");
+                File file = tempFile.path().toFile();
+                System.out.println("File Made from Temp File");
+                String filename = pdf.getFilename();
+                System.out.println("File Name Made");
+
+                String accessKey = config.getString("aws.access.key");
+                String secret = config.getString("aws.secret.key");
+                String bucketName = config.getString("aws.bucketName");
+
+                System.out.println(accessKey + " " + secret + " " + bucketName);
+
+
+                try {
+                    AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secret);
+                    AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
+                    AccessControlList acl = new AccessControlList();
+                    acl.grantPermission(GroupGrantee.AllUsers, Permission.Read);
+                    s3Client.createBucket(bucketName);
+                    s3Client.putObject(new PutObjectRequest(bucketName, filename, file).withAccessControlList(acl));
+
+                    String pdfFilePath = "http://" + bucketName+ ".s3.amazonaws.com/" + filename;
+                    ResumePDF newPDF = new ResumePDF();
+                    newPDF.setLinkedResume(resumeID);
+                    newPDF.setPdfAWSPath(pdfFilePath);
+                    newPDF.setBucketName(bucketName);
+                    newPDF.setKeyName(filename);
+                    newPDF.save();
+
+                    return redirect("/resume/edit/resume=" + resumeID);
+                } catch (Exception e) {
+                    System.out.println("Error After Creds");
+                    e.printStackTrace();
+                    return ok("Resume was not uploaded");
+                }
+
+            } catch(Exception e) {
+                return internalServerError(e.getMessage());
+            }
+        } else {
+            System.out.println("Missed the Try Block");
+            return badRequest();
+        }
+    }
+
+    public Result deletePDF(Http.Request request) {
+        JsonNode json = request.body().asJson();
+        long pdfID = json.findPath("pdfID").longValue();
+        System.out.println("Deleting pdf " + pdfID);
+        String accessKey = config.getString("aws.access.key");
+        String secret = config.getString("aws.secret.key");
+        try {
+            AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secret);
+            AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
+            ResumePDF resume = ResumePDF.find.byId(pdfID);
+//            AccessControlList acl = new AccessControlList();
+//            acl.grantPermission(GroupGrantee.AllUsers, Permission.Read);
+//            s3Client.createBucket(bucketName);
+//            s3Client.putObject(new PutObjectRequest(bucketName, filename, file).withAccessControlList(acl));
+            s3Client.deleteObject(new DeleteObjectRequest(resume.getBucketName(), resume.getKeyName()));
+            ResumePDF.find.deleteById(pdfID);
+            return ok("PDF Deleted");
+        } catch(AmazonServiceException e){
+                // The call was transmitted successfully, but Amazon S3 couldn't process
+                // it, so it returned an error response.
+            e.printStackTrace();
+            return ok("AWS Exception");
+        }
+    }
+
     public Result getClubs() {
         List<Clubs> clubs = Clubs.find.all();
         return ok(Json.toJson(clubs));
@@ -198,6 +294,11 @@ public class UploadController extends Controller {
 
     public Result getResumes() {
         List<Resume> resumes = Resume.find.all();
+        return ok(Json.toJson(resumes));
+    }
+
+    public Result getPDFs() {
+        List<ResumePDF> resumes = ResumePDF.find.all();
         return ok(Json.toJson(resumes));
     }
 }

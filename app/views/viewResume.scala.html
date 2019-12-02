@@ -1,4 +1,4 @@
-@(clubs: List[Clubs], internships: List[Interning], schools: List[Schooling], skills: List[Skills], resumeID: Long)
+@(clubs: List[Clubs], internships: List[Interning], schools: List[Schooling], skills: List[Skills], pdfs: List[ResumePDF], resumeID: Long)
 
 @navBar("Viewing Resume") {
 
@@ -34,6 +34,12 @@
     <h1> Skills </h1>
     @for(c <- skills) {
     @c.getSkillField()<br>
+    }
+</div>
+<div class="resultCard">
+    <h1> PDFs </h1>
+    @for(c <- pdfs) {
+    <a href="@c.getPdfAWSPath()">Download PDF</a><br>
     }
 </div>
 <div class="buttonSpacer"></div>

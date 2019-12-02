@@ -43,6 +43,8 @@ POST    /resume/saveInternship      controllers.UploadController.addInternshipTo
 +nocsrf
 POST    /resume/edit/delete         controllers.UploadController.deleteObject(request:Request)
 +nocsrf
+POST    /resume/edit/deletePDF      controllers.UploadController.deletePDF(request:Request)
++nocsrf
 GET     /resume/getInternships      controllers.UploadController.getInternships()
 +nocsrf
 POST    /resume/saveSchool          controllers.UploadController.addSchoolToResume(request:Request)
@@ -56,3 +58,7 @@ GET     /resume/getSkills           controllers.UploadController.getSkills()
 GET     /resume/getResumes          controllers.UploadController.getResumes()
 +nocsrf
 GET     /resume/resume=:id          controllers.UploadController.viewResume(id: Long)
++nocsrf
+POST    /resume/uploadPDF/resume=:id           controllers.UploadController.uploadFileToS3(request:Request, id: Long)
++nocsrf
+GET     /resume/getPDFs             controllers.UploadController.getPDFs()
