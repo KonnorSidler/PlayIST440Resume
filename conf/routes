@@ -43,6 +43,8 @@ POST    /resume/saveInternship      controllers.UploadController.addInternshipTo
 +nocsrf
 POST    /resume/edit/delete         controllers.UploadController.deleteObject(request:Request)
 +nocsrf
+POST    /resume/edit/deletePDF      controllers.UploadController.deletePDF(request:Request)
++nocsrf
 GET     /resume/getInternships      controllers.UploadController.getInternships()
 +nocsrf
 POST    /resume/saveSchool          controllers.UploadController.addSchoolToResume(request:Request)

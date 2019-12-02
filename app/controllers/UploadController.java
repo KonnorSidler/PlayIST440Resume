@@ -20,6 +20,7 @@ import com.amazonaws.services.s3.*;
 import com.amazonaws.services.s3.model.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.amazonaws.AmazonServiceException;
 
 
 /**
@@ -226,8 +227,11 @@ public class UploadController extends Controller {
                     ResumePDF newPDF = new ResumePDF();
                     newPDF.setLinkedResume(resumeID);
                     newPDF.setPdfAWSPath(pdfFilePath);
+                    newPDF.setBucketName(bucketName);
+                    newPDF.setKeyName(filename);
                     newPDF.save();
-                    return ok("Resume uploaded: " + pdfFilePath);
+
+                    return redirect("/resume/edit/resume=" + resumeID);
                 } catch (Exception e) {
                     System.out.println("Error After Creds");
                     e.printStackTrace();
@@ -240,6 +244,31 @@ public class UploadController extends Controller {
         } else {
             System.out.println("Missed the Try Block");
             return badRequest();
+        }
+    }
+
+    public Result deletePDF(Http.Request request) {
+        JsonNode json = request.body().asJson();
+        long pdfID = json.findPath("pdfID").longValue();
+        System.out.println("Deleting pdf " + pdfID);
+        String accessKey = config.getString("aws.access.key");
+        String secret = config.getString("aws.secret.key");
+        try {
+            AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secret);
+            AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
+            ResumePDF resume = ResumePDF.find.byId(pdfID);
+//            AccessControlList acl = new AccessControlList();
+//            acl.grantPermission(GroupGrantee.AllUsers, Permission.Read);
+//            s3Client.createBucket(bucketName);
+//            s3Client.putObject(new PutObjectRequest(bucketName, filename, file).withAccessControlList(acl));
+            s3Client.deleteObject(new DeleteObjectRequest(resume.getBucketName(), resume.getKeyName()));
+            ResumePDF.find.deleteById(pdfID);
+            return ok("PDF Deleted");
+        } catch(AmazonServiceException e){
+                // The call was transmitted successfully, but Amazon S3 couldn't process
+                // it, so it returned an error response.
+            e.printStackTrace();
+            return ok("AWS Exception");
         }
     }
 

@@ -44,6 +44,8 @@ create table resume (
 create table resume_pdf (
   pdf_id                        bigserial not null,
   linked_resume                 bigint not null,
+  bucket_name                   varchar(255),
+  key_name                      varchar(255),
   pdf_awspath                   varchar(255),
   constraint pk_resume_pdf primary key (pdf_id)
 );
