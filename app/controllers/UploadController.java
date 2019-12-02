@@ -212,8 +212,6 @@ public class UploadController extends Controller {
                 String secret = config.getString("aws.secret.key");
                 String bucketName = config.getString("aws.bucketName");
 
-                System.out.println(accessKey + " " + secret + " " + bucketName);
-
 
                 try {
                     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secret);
