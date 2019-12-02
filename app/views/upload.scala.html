@@ -3,7 +3,7 @@
 @navBar("Upload Resume") {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+@helper.CSRF.formField
 
 <h1>Add Resume</h1>
 <div class="resultCard">
@@ -28,6 +28,14 @@
         console.log("Adding Resume to Database");
         var companyName = document.getElementById("companyName").value;
         var data = {"companyName" : companyName};
+
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
             url : '@routes.UploadController.createResumeObject',
@@ -53,6 +61,14 @@
         console.log("Adding Resume to Database");
         var companyName = document.getElementById("newCompanyName").value;
         var data = {"companyName" : companyName};
+
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
             url : '@routes.UploadController.createResumeObject',

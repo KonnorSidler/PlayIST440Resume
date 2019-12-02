@@ -3,8 +3,7 @@
 @navBar("Update Resume") {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type='text/javascript' src='@routes.Assets.versioned("javascripts/s3Upload.js")'></script>
-@helper.CSRF.formField
+
 
 
 <p hidden id="resumeId">@resumeID</p>
@@ -107,7 +106,8 @@
             }
         </div>
         <div class="editEdit">
-            <form action="@routes.UploadController.uploadFileToS3(resumeID)" enctype="multipart/form-data" method="post">
+            <form action="@routes.EditorController.uploadFileToS3(resumeID)" enctype="multipart/form-data" method="post">
+                @helper.CSRF.formField
                 <input type="file" name="pdf"><br>
                 <input type="text" name="resumeID" value="@resumeID" hidden>
                 <input type="submit">
@@ -149,9 +149,16 @@
                     "objectID" : objectID,
                     "resumeID" : resumeID};
 
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
-            url : '@routes.UploadController.deleteObject',
+            url : '@routes.EditorController.deleteObject',
             data : JSON.stringify(data),
             dataType: 'html',
             contentType: 'application/json',
@@ -174,9 +181,16 @@
 
         var resumeID = document.getElementById("resumeId").innerText;
 
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
-            url : '@routes.UploadController.deletePDF',
+            url : '@routes.EditorController.deletePDF',
             data : JSON.stringify(data),
             dataType: 'html',
             contentType: 'application/json',
@@ -215,7 +229,7 @@
 
         $.ajax({
             type : 'POST',
-            url : '@routes.UploadController.addClubToResume',
+            url : '@routes.EditorController.addClubToResume',
             data : JSON.stringify(data),
             dataType: 'html',
             contentType: 'application/json',
@@ -243,9 +257,17 @@
                     "internPosition" : position,
                     "internDesc" : description,
                     "resumeID" : resumeID};
+
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
-            url : '@routes.UploadController.addInternshipToResume',
+            url : '@routes.EditorController.addInternshipToResume',
             data : JSON.stringify(data),
             dataType: 'html',
             contentType: 'application/json',
@@ -271,9 +293,17 @@
         var data = {"schoolName" : school,
                     "schoolMajor" : major,
                     "resumeID" : resumeID};
+
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
-            url : '@routes.UploadController.addSchoolToResume',
+            url : '@routes.EditorController.addSchoolToResume',
             data : JSON.stringify(data),
             dataType: 'html',
             contentType: 'application/json',
@@ -297,9 +327,17 @@
         var resumeID = document.getElementById("resumeId").innerText;
         var data = {"skillField" : skills,
                     "resumeID" : resumeID};
+
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
-            url : '@routes.UploadController.addSkillsToResume',
+            url : '@routes.EditorController.addSkillsToResume',
             data : JSON.stringify(data),
             dataType: 'html',
             contentType: 'application/json',
