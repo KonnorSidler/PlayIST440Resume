@@ -21,7 +21,6 @@ libraryDependencies += guice
 
 // AWS
 libraryDependencies += "com.amazonaws" % "aws-java-sdk" % "1.3.11"
-libraryDependencies += "io.minio" % "minio" % "6.0.11"
 
 // Test Database
 libraryDependencies += "com.h2database" % "h2" % "1.4.197"
