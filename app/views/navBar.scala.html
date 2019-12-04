@@ -29,6 +29,7 @@
   <style type="text/css">
 
   body{
+
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -39,15 +40,16 @@
   }
 
   #nav{
+
     float: left;
-    position: static;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     width: 230px; /* Width of navigation frame */
     height: 100%;
     overflow: hidden; /* Disables scrollbars on the navigation frame. To enable scrollbars, change "hidden" to "scroll" */
-    background: #eee;
+    background: #337ab769;
   }
 
   #results{
@@ -111,7 +113,7 @@
   }
 
   .innertube{
-    margin: 15px; /* Provides padding for the content */
+    margin: 25px; /* Provides padding for the content */
   }
 
   p {
@@ -146,13 +148,7 @@ body, html {
   line-height: 1.8;
 }
 
-/* Create a Parallax Effect */
-.bgimg-1, .bgimg-2, .bgimg-3 {
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+
 
 
 .Resume-Center {
@@ -161,10 +157,29 @@ body, html {
 }
 .w3-wide {letter-spacing: 10px;}
 .w3-hover-opacity {cursor: pointer;}
-
+@@media screen {
 .navbar {
-  margin-bottom: 0px;
+    width: 100%;
+    z-index: 1;
+background-color: #286090;
+  position: fixed;
+
 }
+}
+/* bootstrap overide */
+.navbar-default .navbar-brand {
+color:  #d4af37;
+
+}
+.navbar-default .navbar-nav>li>a{
+  color:  #f5f5f5;
+}
+
+.navbar-default {
+
+border-color: #286090;
+}
+
 
 
 

@@ -12,10 +12,11 @@
 <nav id="nav">
 	<div class="innertube">
 		<br>
-		<h3>Search</h3>
+		<br>
+		<h2>Search</h2>
 		<ul>
-			<li>Company</a></li>
-			<li><select name="company" id="companyName">
+			<h3>Company</h3>
+			<li><select class="btn btn-secondary dropdown-toggle"data-toggle="dropdown"  aria name="company" name="company" id="companyName">
 				<option></option>
 				@for(a <- companies) {
 				<option>@a.getCompanyName()</option>
@@ -28,7 +29,7 @@
 <!--			<li>End: </li>-->
 <!--			<li>  <input type="text" name="enddate"></li>-->
 <!--			<li><br></li>-->
-			<li><button id="searchButton" onclick="searchByCompanyName()"> Start Search </button></li>
+			<li><button class="btn btn-primary" id="searchButton" onclick="searchByCompanyName()"> Start Search </button></li>
 		</ul>
 
 

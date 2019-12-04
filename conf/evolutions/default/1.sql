@@ -4,7 +4,7 @@
 # --- !Ups
 
 create table clubs (
-  club_id                       bigserial not null,
+  club_id                       bigint auto_increment not null,
   linked_resume                 bigint not null,
   club_name                     varchar(255),
   club_description              varchar(255),
@@ -12,13 +12,13 @@ create table clubs (
 );
 
 create table company (
-  company_id                    bigserial not null,
+  company_id                    bigint auto_increment not null,
   company_name                  varchar(255),
   constraint pk_company primary key (company_id)
 );
 
 create table database_test (
-  id                            bigserial not null,
+  id                            bigint auto_increment not null,
   database_message              varchar(255),
   constraint pk_database_test primary key (id)
 );
@@ -27,7 +27,7 @@ create table favorite_map (
 );
 
 create table interning (
-  internship_id                 bigserial not null,
+  internship_id                 bigint auto_increment not null,
   linked_resume                 bigint not null,
   intern_company                varchar(255),
   position                      varchar(255),
@@ -36,13 +36,13 @@ create table interning (
 );
 
 create table resume (
-  resume_id                     bigserial not null,
+  resume_id                     bigint auto_increment not null,
   company_id                    bigint not null,
   constraint pk_resume primary key (resume_id)
 );
 
 create table resume_pdf (
-  pdf_id                        bigserial not null,
+  pdf_id                        bigint auto_increment not null,
   linked_resume                 bigint not null,
   bucket_name                   varchar(255),
   key_name                      varchar(255),
@@ -51,7 +51,7 @@ create table resume_pdf (
 );
 
 create table schooling (
-  school_id                     bigserial not null,
+  school_id                     bigint auto_increment not null,
   linked_resume                 bigint not null,
   school_name                   varchar(255),
   major                         varchar(255),
@@ -59,14 +59,14 @@ create table schooling (
 );
 
 create table skills (
-  skills_id                     bigserial not null,
+  skills_id                     bigint auto_increment not null,
   linked_resume                 bigint not null,
   skill_field                   varchar(255),
   constraint pk_skills primary key (skills_id)
 );
 
 create table user_account (
-  user_id                       bigserial not null,
+  user_id                       bigint auto_increment not null,
   user_email                    varchar(255),
   user_name                     varchar(255),
   constraint pk_user_account primary key (user_id)
@@ -75,23 +75,23 @@ create table user_account (
 
 # --- !Downs
 
-drop table if exists clubs cascade;
+drop table if exists clubs;
 
-drop table if exists company cascade;
+drop table if exists company;
 
-drop table if exists database_test cascade;
+drop table if exists database_test;
 
-drop table if exists favorite_map cascade;
+drop table if exists favorite_map;
 
-drop table if exists interning cascade;
+drop table if exists interning;
 
-drop table if exists resume cascade;
+drop table if exists resume;
 
-drop table if exists resume_pdf cascade;
+drop table if exists resume_pdf;
 
-drop table if exists schooling cascade;
+drop table if exists schooling;
 
-drop table if exists skills cascade;
+drop table if exists skills;
 
-drop table if exists user_account cascade;
+drop table if exists user_account;
 
