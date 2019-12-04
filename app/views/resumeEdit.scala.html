@@ -5,27 +5,34 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type='text/javascript' src='@routes.Assets.versioned("javascripts/s3Upload.js")'></script>
 
-
+<br>
+<br>
 <p hidden id="resumeId">@resumeID</p>
 <div id="informationEntry">
     <div class="editContainer">
         <div class="editView">
             <h1>Clubs</h1>
+
             @for(c <- clubs) {
+
                 <h2>@c.getName()</h2><br>
+
                 @c.getDesc()
                 <p hidden id="club-@c.getID()">c.getID()</p><br>
-                <button onclick="deleteObject('club', @c.getID())">Delete Club</button>
+
+                <button type="button" class="btn btn-danger" onclick="deleteObject('club', @c.getID())">Delete Club</button>
+
             }
+
         </div>
         <div class="editEdit">
             <h1>Add Club To Resume</h1>
             <div>
                 Club Name <br>
-                <input type="text" name="clubName" id="clubName"><br>
+                <input type="text" class="form-control" name="clubName" id="clubName"><br>
                 Club Description <br>
-                <input type="text" name="clubDescription" id="clubDesc"><br>
-                <button id="clubSubmitButton" onclick="addClub()">Add Club</button>
+                <input type="text"class="form-control" name="clubDescription" id="clubDesc"><br>
+                <button type="button" class="btn btn-success" id="clubSubmitButton" onclick="addClub()">Add Club</button>
             </div>
         </div>
     </div>
@@ -38,19 +45,19 @@
             @c.getPosition()<br>
             @c.getDescription()
             <p hidden id="internship-@c.getID()">c.getID()</p><br>
-            <button onclick="deleteObject('internship', @c.getID())">Delete Internship</button>
+            <button type="button" class="btn btn-danger" onclick ="deleteObject('internship', @c.getID())">Delete Internship</button>
             }
         </div>
         <div class="editEdit">
             <h1>Add Internship To Resume</h1>
             <div>
                 Internship Company <br>
-                <input type="text" name="internCompany" id="internCompany"><br>
+                <input type="text" class="form-control"name="internCompany" id="internCompany"><br>
                 Intern Position <br>
-                <input type="text" name="internPosition" id="internPosition"><br>
+                <input type="text"class="form-control" name="internPosition" id="internPosition"><br>
                 Internship Description <br>
-                <input type="text" name="internDescription" id="internDescription"><br>
-                <button id="internSubmitButton" onclick="addIntern()">Add Internship</button>
+                <input type="text" class="form-control" name="internDescription" id="internDescription"><br>
+                <button type="button" class="btn btn-success" id="internSubmitButton" onclick="addIntern()">Add Internship</button>
             </div>
         </div>
     </div>
@@ -62,17 +69,17 @@
             <h2>@c.getSchoolName()</h2><br>
             @c.getMajor()
             <p hidden id="school-@c.getID()">c.getID()</p><br>
-            <button onclick="deleteObject('school', @c.getID())">Delete School</button>
+            <button type="button" class="btn btn-danger" onclick="deleteObject('school', @c.getID())">Delete School</button>
             }
         </div>
         <div class="editEdit">
             <h1>Add School To Resume</h1>
             <div>
                 School Name <br>
-                <input type="text" name="schoolName" id="schoolName"><br>
+                <input type="text" class="form-control" name="schoolName" id="schoolName"><br>
                 School Major<br>
-                <input type="text" name="schoolMajor" id="schoolMajor"><br>
-                <button id="schoolSubmitButton" onclick="addSchool()">Add School</button>
+                <input type="text" class="form-control" name="schoolMajor" id="schoolMajor"><br>
+                <button type="button" class="btn btn-success" id="schoolSubmitButton" onclick="addSchool()">Add School</button>
             </div>
         </div>
     </div>
@@ -83,15 +90,15 @@
             @for(c <- skills) {
             @c.getSkillField()<br>
             <p hidden id="skill-@c.getID()">c.getID()</p><br>
-            <button onclick="deleteObject('skill', @c.getID())">Delete Skills</button>
+            <button type="button" class="btn btn-danger" onclick="deleteObject('skill', @c.getID())">Delete Skill</button>
             }
         </div>
         <div class="editEdit">
             <h1>Add Skills To Resume</h1>
             <div>
                 Applicable Skills <br>
-                <input type="text" name="skillField" id="skillField"><br>
-                <button id="skillSubmitButton" onclick="addSkills()">Add Skills</button>
+                <input type="text" class="form-control" name="skillField" id="skillField"><br>
+                <button type="button" class="btn btn-success"  id="skillSubmitButton" onclick="addSkills()">Add Skills</button>
             </div>
         </div>
     </div>
@@ -100,7 +107,7 @@
             <h1> PDFs </h1>
             @for(c <- pdfs) {
                 <a href="@c.getPdfAWSPath()">Download PDF</a>
-            <button onclick="deletePDF(@c.getPdfID())">Remove PDF</button>
+            <button type="button" class="btn btn-danger" onclick="deletePDF(@c.getPdfID())">Remove PDF</button>
             <br>
 
             }
@@ -109,7 +116,7 @@
             <form action="@routes.UploadController.uploadFileToS3(resumeID)" enctype="multipart/form-data" method="post">
                 <input type="file" name="pdf"><br>
                 <input type="text" name="resumeID" value="@resumeID" hidden>
-                <input type="submit">
+                <input class="btn btn-success"  type="submit">
             </form>
 
         </div>

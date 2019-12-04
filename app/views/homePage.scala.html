@@ -1,0 +1,153 @@
+@navBar("Home page"){
+
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel ="stylesheet" href='@routes.Assets.versioned("stylesheets/Team.CSS")'>
+
+/*end of meet the team style */
+
+<style>
+
+
+  body, html {
+    height: 100%;
+    margin: 0;
+    font: 400 15px/1.8 "Lato", sans-serif;
+    color: #777;
+  }
+
+  .bgimg-1, .bgimg-2, .bgimg-3 {
+    position: relative;
+    opacity: 0.85;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+  }
+  .bgimg-1 {
+
+    background-image: url('@routes.Assets.versioned("images/IST_building_blue.jpg")');
+    min-height: 80%;
+  }
+
+  .bgimg-2 {
+    background-image: url("constructive_bg_01.jpg");
+    min-height: 400px;
+  }
+
+  .bgimg-3 {
+    background-image: url("img_parallax3.jpg");
+    min-height: 400px;
+  }
+
+  .caption {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    color: #000;
+  }
+
+  .caption span.border {
+    background-color: #d4af37;
+    color: ##252525;
+    padding: 18px;
+    font-size: 25px;
+    letter-spacing: 10px;
+  }
+
+  h3 {
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font: 20px "Lato", sans-serif;
+    color: #111;
+  }
+
+
+
+  </style>
+  </head>
+  <body>
+
+  <div class="bgimg-1">
+    <div class="caption">
+    <span class="border">The Resume Files</span>
+    </div>
+  </div>
+
+  <div style="color: #777;background-color:white;text-align:center;padding:50px 80px;text-align: justify;">
+    <h3 style="text-align:center;">OUR PROJECT</h3>
+  <center>  <p>
+    <br>
+    <font size="5">
+    Our goal is to create a useful resource to better equipped university students with their job ambitions. As current Penn State University students, we are very familiar with the struggles students go through to find jobs as they are nearing graduation.
+By viewing resumes of those who have already been hired by the student’s target company, they will be able to get a sense of what skills it is important for them to know to be hired by the companies they are interested in working for.
+</font>
+</p>
+</center>
+<br>
+<br>
+<!-- Start of meet the team divs -->
+<div class="team-section">
+
+
+  <h1>Our Team</h1>
+  <span class="border"</span>
+<div class = "Pplps">
+  <a href = "#p1"><img src='@routes.Assets.versioned("images/person.png")' alt =""></a>
+<a href = "#p2"><img src='@routes.Assets.versioned("images/jfortunatoPic.jpg")' alt =""></a>
+<a href = "#p3"><img src='@routes.Assets.versioned("images/person.png")' alt =""></a>
+<a href = "#p4"><img src='@routes.Assets.versioned("images/person.png")' alt =""></a>
+<a href = "#p5"><img src='@routes.Assets.versioned("images/alex.jpg")' alt =""></a>
+
+
+
+
+  </div>
+  <div class="Pepsection" id="p1">
+    <span class = "Pepname">Rachel Braun</span>
+    <span class = "Pepborder"></span>
+    <p>
+      You clicked on rachel
+      </p>
+  </div>
+  <div class="Pepsection" id="p2">
+        <span class = "Pepname">Jeremy Fortunato</span>
+        <span class = "Pepborder"></span>
+        <p>
+          Jeremy is a design and development focused IST major at universtiy park. Jeremy is from Princeton NJ and frequently travels to NYC for work.
+          He has work expierence working as a data analyst for Johnson and Johnson and proceeded his career by
+           developing business intelligence applications for inspired beauty brands.
+        </p>
+  </div>
+  <div class="Pepsection" id="p3">
+        <span class = "Pepname">Konnor </span>
+        <span class = "Pepborder"></span>
+          <p>
+            You clicked on Konnor
+          </p>
+    </div>
+    <div class="Pepsection" id="p4">
+         <span class = "Pepname">Jordan</span>
+         <span class = "Pepborder"></span>
+            <p>
+              You clicked on Jordan
+            </p>
+      </div>
+      <div class="Pepsection" id="p5">
+          <span class = "Pepname">Alex</span>
+          <span class = "Pepborder"></span>
+            <p>
+              You clicked on Alex
+            </p>
+        </div>
+<!-- end of meet the team divs -->
+
+
+  </body>
+  </html>
+}
