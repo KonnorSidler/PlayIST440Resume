@@ -3,7 +3,7 @@
 @navBar("Update Resume") {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type='text/javascript' src='@routes.Assets.versioned("javascripts/s3Upload.js")'></script>
+
 
 <br>
 <br>
@@ -106,14 +106,15 @@
         <div class="editView">
             <h1> PDFs </h1>
             @for(c <- pdfs) {
-                <a href="@c.getPdfAWSPath()">Download PDF</a>
+                <a href="@c.getPdfAWSPath()" target="_blank">Download PDF</a>
             <button type="button" class="btn btn-danger" onclick="deletePDF(@c.getPdfID())">Remove PDF</button>
             <br>
 
             }
         </div>
         <div class="editEdit">
-            <form action="@routes.UploadController.uploadFileToS3(resumeID)" enctype="multipart/form-data" method="post">
+            <form action="@routes.EditorController.uploadFileToS3(resumeID)" enctype="multipart/form-data" method="post">
+                @helper.CSRF.formField
                 <input type="file" name="pdf"><br>
                 <input type="text" name="resumeID" value="@resumeID" hidden>
                 <input class="btn btn-success"  type="submit">
@@ -155,9 +156,16 @@
                     "objectID" : objectID,
                     "resumeID" : resumeID};
 
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
-            url : '@routes.UploadController.deleteObject',
+            url : '@routes.EditorController.deleteObject',
             data : JSON.stringify(data),
             dataType: 'html',
             contentType: 'application/json',
@@ -180,9 +188,16 @@
 
         var resumeID = document.getElementById("resumeId").innerText;
 
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
-            url : '@routes.UploadController.deletePDF',
+            url : '@routes.EditorController.deletePDF',
             data : JSON.stringify(data),
             dataType: 'html',
             contentType: 'application/json',
@@ -212,9 +227,16 @@
         var data = {"clubName" : clubName,
                     "clubDescription" : clubDescription,
                     "resumeID" : resumeID};
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
-            url : '@routes.UploadController.addClubToResume',
+            url : '@routes.EditorController.addClubToResume',
             data : JSON.stringify(data),
             dataType: 'html',
             contentType: 'application/json',
@@ -242,9 +264,17 @@
                     "internPosition" : position,
                     "internDesc" : description,
                     "resumeID" : resumeID};
+
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
-            url : '@routes.UploadController.addInternshipToResume',
+            url : '@routes.EditorController.addInternshipToResume',
             data : JSON.stringify(data),
             dataType: 'html',
             contentType: 'application/json',
@@ -270,9 +300,17 @@
         var data = {"schoolName" : school,
                     "schoolMajor" : major,
                     "resumeID" : resumeID};
+
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
-            url : '@routes.UploadController.addSchoolToResume',
+            url : '@routes.EditorController.addSchoolToResume',
             data : JSON.stringify(data),
             dataType: 'html',
             contentType: 'application/json',
@@ -296,9 +334,17 @@
         var resumeID = document.getElementById("resumeId").innerText;
         var data = {"skillField" : skills,
                     "resumeID" : resumeID};
+
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
-            url : '@routes.UploadController.addSkillsToResume',
+            url : '@routes.EditorController.addSkillsToResume',
             data : JSON.stringify(data),
             dataType: 'html',
             contentType: 'application/json',

@@ -18,47 +18,24 @@ GET     /viewDBTest                 controllers.DatabaseTestController.getDBTest
 # Searching
 +nocsrf
 GET     /search                     controllers.SearchController.index
-+nocsrf
 GET     /search/results=:id         controllers.SearchController.getSearchResults(id: Long)
-+nocsrf
 POST    /search/getCode             controllers.SearchController.getCompanyCode(request:Request)
 
 # Uploading
-+nocsrf
 GET     /resume                     controllers.UploadController.uploadPage()
-+nocsrf
 POST    /resume/saveResume          controllers.UploadController.createResumeObject(request:Request)
-+nocsrf
-GET     /company                    controllers.UploadController.companyCreatePage()
-+nocsrf
-POST    /company/saveCompany        controllers.UploadController.createCompanyObject(request:Request)
-+nocsrf
-GET     /resume/edit/resume=:id     controllers.UploadController.index(id: Long)
-+nocsrf
-POST    /resume/saveClub            controllers.UploadController.addClubToResume(request:Request)
-+nocsrf
-GET     /resume/getClubs            controllers.UploadController.getClubs()
-+nocsrf
-POST    /resume/saveInternship      controllers.UploadController.addInternshipToResume(request:Request)
-+nocsrf
-POST    /resume/edit/delete         controllers.UploadController.deleteObject(request:Request)
-+nocsrf
-POST    /resume/edit/deletePDF      controllers.UploadController.deletePDF(request:Request)
-+nocsrf
-GET     /resume/getInternships      controllers.UploadController.getInternships()
-+nocsrf
-POST    /resume/saveSchool          controllers.UploadController.addSchoolToResume(request:Request)
-+nocsrf
-GET     /resume/getSchools          controllers.UploadController.getSchools()
-+nocsrf
-POST    /resume/saveSkills          controllers.UploadController.addSkillsToResume(request:Request)
-+nocsrf
-GET     /resume/getSkills           controllers.UploadController.getSkills()
-+nocsrf
+GET     /resume/edit/resume=:id     controllers.EditorController.index(id: Long)
+POST    /resume/saveClub            controllers.EditorController.addClubToResume(request:Request)
+GET     /resume/getClubs            controllers.EditorController.getClubs()
+POST    /resume/saveInternship      controllers.EditorController.addInternshipToResume(request:Request)
+POST    /resume/edit/delete         controllers.EditorController.deleteObject(request:Request)
+POST    /resume/edit/deletePDF      controllers.EditorController.deletePDF(request:Request)
+GET     /resume/getInternships      controllers.EditorController.getInternships()
+POST    /resume/saveSchool          controllers.EditorController.addSchoolToResume(request:Request)
+GET     /resume/getSchools          controllers.EditorController.getSchools()
+POST    /resume/saveSkills          controllers.EditorController.addSkillsToResume(request:Request)
+GET     /resume/getSkills           controllers.EditorController.getSkills()
 GET     /resume/getResumes          controllers.UploadController.getResumes()
-+nocsrf
-GET     /resume/resume=:id          controllers.UploadController.viewResume(id: Long)
-+nocsrf
-POST    /resume/uploadPDF/resume=:id           controllers.UploadController.uploadFileToS3(request:Request, id: Long)
-+nocsrf
-GET     /resume/getPDFs             controllers.UploadController.getPDFs()
+GET     /resume/resume=:id          controllers.EditorController.viewResume(id: Long)
+POST    /resume/uploadPDF/resume=:id           controllers.EditorController.uploadFileToS3(request:Request, id: Long)
+GET     /resume/getPDFs             controllers.EditorController.getPDFs()

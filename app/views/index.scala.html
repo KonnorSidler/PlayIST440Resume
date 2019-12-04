@@ -3,11 +3,7 @@
 @navBar("Home Page") {
 <!DOCTYPE html>
 <html>
-
-
-
-
-
+@helper.CSRF.formField
 
 <nav id="nav">
 	<div class="innertube">
@@ -44,6 +40,14 @@
         console.log("Searching for Company Name in Database");
         var companyName = document.getElementById("companyName").value;
         var data = {"companyName" : companyName};
+
+        var token =  $('input[name="csrfToken"]').attr('value')
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('Csrf-Token', token);
+            }
+        });
+
         $.ajax({
             type : 'POST',
             url : '@routes.SearchController.getCompanyCode',
