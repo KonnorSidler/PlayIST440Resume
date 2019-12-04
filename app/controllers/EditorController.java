@@ -172,9 +172,16 @@ public class EditorController extends Controller {
                     AccessControlList acl = new AccessControlList();
                     acl.grantPermission(GroupGrantee.AllUsers, Permission.Read);
                     s3Client.createBucket(bucketName);
-                    s3Client.putObject(new PutObjectRequest(bucketName, filename, file).withAccessControlList(acl));
+                    PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, filename, file).withAccessControlList(acl);
 
                     String pdfFilePath = "http://" + bucketName+ ".s3.amazonaws.com/" + filename;
+                    ObjectMetadata metadata = new ObjectMetadata();
+                    metadata.setContentType("application/pdf");
+                    metadata.setContentDisposition("inline");
+                    putObjectRequest.setMetadata(metadata);
+
+                    s3Client.putObject(putObjectRequest);
+
                     ResumePDF newPDF = new ResumePDF();
                     newPDF.setLinkedResume(resumeID);
                     newPDF.setPdfAWSPath(pdfFilePath);
