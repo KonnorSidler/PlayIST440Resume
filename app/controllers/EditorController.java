@@ -159,8 +159,10 @@ public class EditorController extends Controller {
                 System.out.println("Temp File Made");
                 File file = tempFile.path().toFile();
                 System.out.println("File Made from Temp File");
-                String filename = pdf.getFilename();
+                String uploadedFilename = pdf.getFilename();
                 System.out.println("File Name Made");
+                int currentRowCount = (ResumePDF.find.query().where().eq("linkedResume", resumeID).findCount()) + 1;
+                String filename = resumeID + "-" + currentRowCount + "-" + uploadedFilename;
 
                 String accessKey = config.getString("aws.access.key");
                 String secret = config.getString("aws.secret.key");
