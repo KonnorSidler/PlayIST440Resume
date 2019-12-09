@@ -20,7 +20,7 @@
                 @c.getDesc()
                 <p hidden id="club-@c.getID()">c.getID()</p><br>
 
-                <button type="button" class="btn btn-danger" onclick="deleteObject('club', @c.getID())">Delete Club</button>
+                <button type="button" class="btn btn-danger" onclick="deleteObject('club', @c.getID())">Delete Club</button><br>
 
             }
 
@@ -45,7 +45,7 @@
             @c.getPosition()<br>
             @c.getDescription()
             <p hidden id="internship-@c.getID()">c.getID()</p><br>
-            <button type="button" class="btn btn-danger" onclick ="deleteObject('internship', @c.getID())">Delete Internship</button>
+            <button type="button" class="btn btn-danger" onclick ="deleteObject('internship', @c.getID())">Delete Internship</button><br>
             }
         </div>
         <div class="editEdit">
@@ -69,7 +69,7 @@
             <h2>@c.getSchoolName()</h2><br>
             @c.getMajor()
             <p hidden id="school-@c.getID()">c.getID()</p><br>
-            <button type="button" class="btn btn-danger" onclick="deleteObject('school', @c.getID())">Delete School</button>
+            <button type="button" class="btn btn-danger" onclick="deleteObject('school', @c.getID())">Delete School</button><br>
             }
         </div>
         <div class="editEdit">
@@ -90,7 +90,7 @@
             @for(c <- skills) {
             @c.getSkillField()<br>
             <p hidden id="skill-@c.getID()">c.getID()</p><br>
-            <button type="button" class="btn btn-danger" onclick="deleteObject('skill', @c.getID())">Delete Skill</button>
+            <button type="button" class="btn btn-danger" onclick="deleteObject('skill', @c.getID())">Delete Skill</button><br>
             }
         </div>
         <div class="editEdit">
